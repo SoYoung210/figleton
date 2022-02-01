@@ -1,0 +1,35 @@
+{
+  "name": "@figeleton/skeleton",
+  "private": "true",
+  "version": "0.0.0",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
+  "license": "MIT",
+  "scripts": {
+    "storybook": "NODE_ENV=storybook start-storybook -p 6006"
+  },
+  "ntl": {
+    "runner": "pnpm"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.12",
+    "@figeleton/config": "workspace:*",
+    "@figeleton/tsconfig": "workspace:*",
+    "@storybook/addon-essentials": "^6.4.17",
+    "@storybook/react": "^6.4.17",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "babel-loader": "^8.2.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "typescript": "^4.5.3",
+    "webpack": "^5.68.0"
+  },
+  "peerDependencies": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "dependencies": {
+    "@stitches/react": "^1.2.6"
+  }
+}
