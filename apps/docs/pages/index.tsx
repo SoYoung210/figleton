@@ -1,4 +1,4 @@
-import { Button } from "@figeleton/core";
+import { Button } from '@figeleton/core';
 
 export default function Docs() {
   return (

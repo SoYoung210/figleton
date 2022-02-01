@@ -1,3 +1,3 @@
 export const Button = () => {
-  return <button>Boodfdp</button>
+  return <button>Boodfdp</button>;
 };
