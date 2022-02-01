@@ -6,7 +6,8 @@
   "types": "./index.tsx",
   "license": "MIT",
   "scripts": {
-    "storybook": "NODE_ENV=storybook start-storybook -p 6006"
+    "storybook": "NODE_ENV=storybook start-storybook -p 6006",
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "ntl": {
     "runner": "pnpm"
