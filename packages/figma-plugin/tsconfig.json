@@ -1,0 +1,15 @@
+{
+  "extends": "@figeleton/tsconfig/react-library.json",
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["es6", "DOM"],
+    "isolatedModules": false
+  },
+  "typeRoots": [
+    "./types",
+    "node_modules/@types"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
