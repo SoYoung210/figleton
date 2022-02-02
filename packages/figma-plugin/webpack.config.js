@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -53,6 +54,7 @@ module.exports = (env, argv) => ({
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    fallback: { path: require.resolve('path-browserify') },
   },
 
   output: {
