@@ -15,7 +15,8 @@ export default function walk(selectionNodes: ReadonlyArray<SceneNode>): string {
   return pipe(
     selectionNodes,
     nodeParser.init,
-    nodeElement => transformer.skeletonJSXString(nodeElement, nodeElement),
+    nodeElement => transformer.positionTree(nodeElement, nodeElement),
+    transformer.skeletonJSXString,
     transformer.beautify
   );
 }

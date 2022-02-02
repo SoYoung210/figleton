@@ -11,3 +11,12 @@ export interface NodeElement {
   renderBounds: RenderBounds;
   type: NodeType;
 }
+
+export interface NodePositionData {
+  position: 'relative' | 'absolute';
+  children: NodePositionData[] | undefined;
+  height: number | string;
+  width: number | string;
+  top: number;
+  left: number;
+}
