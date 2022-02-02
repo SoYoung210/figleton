@@ -1,7 +1,10 @@
 import { NodeElement } from '../model';
 import { NodeConstants } from './node';
 
-function toHtmlString(targetNode: NodeElement, rootNode: NodeElement): string {
+function skeletonJSXString(
+  targetNode: NodeElement,
+  rootNode: NodeElement
+): string {
   const isRootNode = targetNode.id === rootNode.id;
   const isFirstChild = rootNode.children?.some(
     rootChild => rootChild.id === targetNode.id
@@ -23,7 +26,7 @@ function toHtmlString(targetNode: NodeElement, rootNode: NodeElement): string {
   return `<div style={{ ${
     hasChildren ? positionStyleString : positionStyleString.concat(mockString)
   } }}>${nextValidChildren
-    ?.map(nextNode => toHtmlString(nextNode, rootNode))
+    ?.map(nextNode => skeletonJSXString(nextNode, rootNode))
     .join('')}</div>`;
 }
 
@@ -32,7 +35,7 @@ function beautify(rawHtml: string): string {
   return rawHtml;
 }
 
-export const StringFormatter = {
-  toHtmlString,
+export const transformer = {
+  skeletonJSXString,
   beautify,
 };

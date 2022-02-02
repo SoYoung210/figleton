@@ -1,5 +1,5 @@
 import { NodeParser } from './node';
-import { StringFormatter } from './string';
+import { transformer } from './transformer';
 
 import { pipe } from '@fxts/core';
 import { CodedError, ERRORS } from './model';
@@ -15,7 +15,7 @@ export default function walk(selectionNodes: ReadonlyArray<SceneNode>): string {
   return pipe(
     selectionNodes,
     NodeParser.init,
-    nodeElement => StringFormatter.toHtmlString(nodeElement, nodeElement),
-    StringFormatter.beautify
+    nodeElement => transformer.skeletonJSXString(nodeElement, nodeElement),
+    transformer.beautify
   );
 }
