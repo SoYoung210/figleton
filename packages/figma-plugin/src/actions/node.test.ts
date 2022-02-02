@@ -97,7 +97,8 @@ describe('[NodeParser] init - when selection node length === 1', () => {
 
 describe('[NodeParser] init - when selection node length > 1', () => {
   test('make rootNode with 1depth children', () => {
-    const mockNodes = arrayOf(3).map(v => ({
+    const nodeCount = 3;
+    const mockNodes = arrayOf(nodeCount).map(v => ({
       ...rawBaseMockNodes,
       name: generateMockLabel(rawBaseMockNodes.name, v),
       id: generateMockLabel(rawBaseMockNodes.id, v),
@@ -107,7 +108,12 @@ describe('[NodeParser] init - when selection node length > 1', () => {
 
     expect(result.name).toBe(NodeConstants.rootNodeName);
     expect(result.id).toBe(NodeConstants.rootNodeId);
-    expect(result.renderBounds).toEqual(NodeConstants.defaultRenderBounds);
+    expect(result.renderBounds).toEqual({
+      x: rawBaseMockNodes.x,
+      y: rawBaseMockNodes.y,
+      width: rawBaseMockNodes.width,
+      height: rawBaseMockNodes.height * nodeCount,
+    });
 
     result.children?.forEach((child, index) => {
       expect(child.children).toBe(undefined);
