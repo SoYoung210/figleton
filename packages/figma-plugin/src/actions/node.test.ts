@@ -31,8 +31,8 @@ describe('[NodeParser] init - when selection node length === 1', () => {
     ];
     const result = NodeParser.init(mockNodes as any);
 
-    expect(result).toHaveProperty('name', baseMockNodes.name);
-    expect(result).toHaveProperty('id', baseMockNodes.id);
+    expect(result.name).toBe(NodeConstants.rootNodeName);
+    expect(result.id).toBe(NodeConstants.rootNodeId);
     expect(result).toHaveProperty('renderBounds', {
       x: baseMockNodes.x,
       y: baseMockNodes.y,

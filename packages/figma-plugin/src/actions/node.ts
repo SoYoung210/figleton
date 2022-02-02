@@ -17,10 +17,10 @@ function initWithRootNode(
 ): NodeElement {
   if (selectionNodes.length === 1) {
     const rootNode = selectionNodes[0];
-    const { name, id, x, y, width, height } = rootNode;
+    const { x, y, width, height } = rootNode;
     const baseNode = {
-      name,
-      id,
+      name: rootNodeName,
+      id: rootNodeId,
       renderBounds: {
         x,
         y,
