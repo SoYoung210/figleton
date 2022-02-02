@@ -15,7 +15,7 @@ export default function walk(selectionNodes: ReadonlyArray<SceneNode>): string {
   return pipe(
     selectionNodes,
     NodeParser.init,
-    StringFormatter.toHtmlString,
+    nodeElement => StringFormatter.toHtmlString(nodeElement, nodeElement),
     StringFormatter.beautify
   );
 }

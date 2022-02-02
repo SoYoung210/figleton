@@ -1,6 +1,6 @@
 export interface RenderBounds {
-  x: number | string;
-  y: number | string;
+  x: number;
+  y: number;
   height: number | string;
   width: number | string;
 }

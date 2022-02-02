@@ -1,13 +1,8 @@
+import { map, max, min, sum } from '@fxts/core';
 import { NodeElement } from '../model';
 
 const rootNodeId = 'ROOT_NODE_ID';
 const rootNodeName = 'ROOT_NODE_NAME';
-const defaultRenderBounds = {
-  x: 0,
-  y: 0,
-  height: '100%',
-  width: '100%',
-};
 /**
  * if selectionNode.length > 1 -> wrap root Element -> to NodeElement
  * else -> to NodeElement
@@ -18,6 +13,7 @@ function initWithRootNode(
   if (selectionNodes.length === 1) {
     const rootNode = selectionNodes[0];
     const { x, y, width, height } = rootNode;
+
     const baseNode = {
       name: rootNodeName,
       id: rootNodeId,
@@ -38,10 +34,26 @@ function initWithRootNode(
     };
   }
 
+  const positions = selectionNodes.map(node => ({ x: node.x, y: node.y }));
+  const baseX = min(map(({ x }) => x, positions));
+  const baseY = min(map(({ y }) => y, positions));
+
+  const sizes = selectionNodes.map(node => ({
+    width: node.width,
+    height: node.height,
+  }));
+  const containerWidth = max(map(({ width }) => width, sizes));
+  const containerHeight = sum(map(({ height }) => height, sizes));
+
   return {
     name: rootNodeName,
     id: rootNodeId,
-    renderBounds: defaultRenderBounds,
+    renderBounds: {
+      width: containerWidth,
+      height: containerHeight,
+      x: baseX,
+      y: baseY,
+    },
     children: selectionNodes.map(toNodeElement),
   };
 }
@@ -67,5 +79,4 @@ export const NodeParser = {
 export const NodeConstants = {
   rootNodeId,
   rootNodeName,
-  defaultRenderBounds,
 };
