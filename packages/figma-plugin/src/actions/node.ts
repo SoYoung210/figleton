@@ -3,6 +3,14 @@ import { NodeElement } from '../model';
 
 const rootNodeId = 'ROOT_NODE_ID';
 const rootNodeName = 'ROOT_NODE_NAME';
+const UNSUPPORTED_NODE_TYPES: NodeType[] = [
+  'BOOLEAN_OPERATION',
+  'CODE_BLOCK',
+  'LINE',
+  'POLYGON',
+  'VECTOR',
+];
+
 /**
  * if selectionNode.length > 1 -> wrap root Element -> to NodeElement
  * else -> to NodeElement
@@ -25,8 +33,12 @@ function initWithRootNode(
       },
     };
 
+    /**
+     * consider root node as 'FRAME'
+     */
     return {
       ...baseNode,
+      type: 'FRAME',
       children:
         'children' in rootNode
           ? rootNode.children.map(toNodeElement)
@@ -48,6 +60,7 @@ function initWithRootNode(
   return {
     name: rootNodeName,
     id: rootNodeId,
+    type: 'FRAME',
     renderBounds: {
       width: containerWidth,
       height: containerHeight,
@@ -62,6 +75,7 @@ function toNodeElement(node: SceneNode): NodeElement {
   return {
     id: node.id,
     name: node.name,
+    type: node.type,
     children: 'children' in node ? node.children.map(toNodeElement) : undefined,
     renderBounds: {
       x: node.x,
@@ -79,4 +93,5 @@ export const NodeParser = {
 export const NodeConstants = {
   rootNodeId,
   rootNodeName,
+  unsupportedTypes: UNSUPPORTED_NODE_TYPES,
 };

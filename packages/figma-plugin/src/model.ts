@@ -9,4 +9,5 @@ export interface NodeElement {
   name: string;
   children: NodeElement[] | undefined;
   renderBounds: RenderBounds;
+  type: NodeType;
 }
