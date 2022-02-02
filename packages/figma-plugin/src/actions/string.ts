@@ -9,7 +9,7 @@ function toHtmlString(targetNode: NodeElement, rootNode: NodeElement): string {
   const nextValidChildren = targetNode.children?.filter(
     ({ type }) => !NodeConstants.unsupportedTypes.includes(type)
   );
-  const hasChildren = nextValidChildren != null;
+  const hasChildren = nextValidChildren != null && nextValidChildren.length > 0;
 
   const position = isRootNode ? 'relative' : 'absolute';
   const { x, y, width, height } = targetNode.renderBounds;
@@ -17,11 +17,13 @@ function toHtmlString(targetNode: NodeElement, rootNode: NodeElement): string {
   const left = isRootNode ? 0 : isFirstChild ? x - rootNode.renderBounds.x : x;
 
   const positionStyleString = `position: '${position}', top: ${top}, left: ${left}, width: ${width}, height: ${height}`;
+  // TODO: replace to render <Skeleton /> or not
+  const mockString = `, border: '1px solid red'`;
 
-  return `<div style={{ ${positionStyleString}, border: '1px solid red' }}>${(
-    nextValidChildren ?? []
-  )
-    .map(nextNode => toHtmlString(nextNode, rootNode))
+  return `<div style={{ ${
+    hasChildren ? positionStyleString : positionStyleString.concat(mockString)
+  } }}>${nextValidChildren
+    ?.map(nextNode => toHtmlString(nextNode, rootNode))
     .join('')}</div>`;
 }
 
