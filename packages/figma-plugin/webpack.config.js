@@ -26,7 +26,7 @@ module.exports = (env, argv) => ({
               [
                 '@babel/preset-env',
                 {
-                  targets: 'defaults',
+                  modules: 'commonjs'
                 },
               ],
               ['@babel/preset-typescript'],
