@@ -86,11 +86,11 @@ function toNodeElement(node: SceneNode): NodeElement {
   };
 }
 
-export const NodeParser = {
+export const nodeParser = {
   init: initWithRootNode,
 };
 
-export const NodeConstants = {
+export const nodeConstants = {
   rootNodeId,
   rootNodeName,
   unsupportedTypes: UNSUPPORTED_NODE_TYPES,

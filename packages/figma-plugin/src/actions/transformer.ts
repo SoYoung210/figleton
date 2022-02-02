@@ -1,5 +1,5 @@
 import { NodeElement } from '../model';
-import { NodeConstants } from './node';
+import { nodeConstants } from './node';
 
 function skeletonJSXString(
   targetNode: NodeElement,
@@ -10,7 +10,7 @@ function skeletonJSXString(
     rootChild => rootChild.id === targetNode.id
   );
   const nextValidChildren = targetNode.children?.filter(
-    ({ type }) => !NodeConstants.unsupportedTypes.includes(type)
+    ({ type }) => !nodeConstants.unsupportedTypes.includes(type)
   );
   const hasChildren = nextValidChildren != null && nextValidChildren.length > 0;
 

@@ -1,4 +1,4 @@
-import { NodeParser } from './node';
+import { nodeParser } from './node';
 import { transformer } from './transformer';
 
 import { pipe } from '@fxts/core';
@@ -14,7 +14,7 @@ export default function walk(selectionNodes: ReadonlyArray<SceneNode>): string {
 
   return pipe(
     selectionNodes,
-    NodeParser.init,
+    nodeParser.init,
     nodeElement => transformer.skeletonJSXString(nodeElement, nodeElement),
     transformer.beautify
   );

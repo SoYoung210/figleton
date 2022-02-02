@@ -1,6 +1,6 @@
 import { expect, test, describe } from 'vitest';
 import arrayOf from '../utils/array';
-import { NodeConstants, NodeParser } from './node';
+import { nodeConstants, nodeParser } from './node';
 
 const rawBaseMockNodes = {
   name: 'testNodeName',
@@ -29,10 +29,10 @@ describe('[NodeParser] init - when selection node length === 1', () => {
         })),
       },
     ];
-    const result = NodeParser.init(mockNodes as any);
+    const result = nodeParser.init(mockNodes as any);
 
-    expect(result.name).toBe(NodeConstants.rootNodeName);
-    expect(result.id).toBe(NodeConstants.rootNodeId);
+    expect(result.name).toBe(nodeConstants.rootNodeName);
+    expect(result.id).toBe(nodeConstants.rootNodeId);
     expect(result).toHaveProperty('renderBounds', {
       x: baseMockNodes.x,
       y: baseMockNodes.y,
@@ -68,7 +68,7 @@ describe('[NodeParser] init - when selection node length === 1', () => {
         })),
       },
     ];
-    const result = NodeParser.init(mockNodes as any);
+    const result = nodeParser.init(mockNodes as any);
 
     result.children?.forEach(child => {
       expect(Array.isArray(child.children)).toBe(true);
@@ -104,10 +104,10 @@ describe('[NodeParser] init - when selection node length > 1', () => {
       id: generateMockLabel(rawBaseMockNodes.id, v),
     }));
 
-    const result = NodeParser.init(mockNodes as any);
+    const result = nodeParser.init(mockNodes as any);
 
-    expect(result.name).toBe(NodeConstants.rootNodeName);
-    expect(result.id).toBe(NodeConstants.rootNodeId);
+    expect(result.name).toBe(nodeConstants.rootNodeName);
+    expect(result.id).toBe(nodeConstants.rootNodeId);
     expect(result.renderBounds).toEqual({
       x: rawBaseMockNodes.x,
       y: rawBaseMockNodes.y,
