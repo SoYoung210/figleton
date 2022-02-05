@@ -1,7 +1,7 @@
 import walk from './actions/walk';
 import { CodedError, PluginMessage } from './model';
 
-figma.showUI(__html__);
+figma.showUI(__html__, { height: 250 });
 
 figma.ui.onmessage = (msg: PluginMessage) => {
   const numberOfRectangles = 5;
