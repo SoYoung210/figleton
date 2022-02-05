@@ -29,13 +29,16 @@ module.exports = (env, argv) => {
             loader: 'babel-loader',
             options: {
               presets: [
-                ['@babel/preset-react'],
                 [
                   '@babel/preset-env',
                   {
                     modules: 'commonjs',
+                    targets: {
+                      esmodules: true,
+                    },
                   },
                 ],
+                ['@babel/preset-react'],
                 ['@babel/preset-typescript'],
               ],
             },
@@ -73,7 +76,7 @@ module.exports = (env, argv) => {
     output: {
       filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
-      publicPath: '/',
+      publicPath: env.WEBPACK_SERVE ? '/' : undefined,
     },
     plugins: [
       new HtmlWebpackPlugin({
