@@ -23,14 +23,14 @@ export enum ERRORS {
  */
 
 export type MessageType = 'create-skeleton' | 'preview-code';
-export interface MessageOption {
+export interface SkeletonOption {
   animation?: 'wave' | 'pulse' | 'unset';
   variant?: 'circle' | 'text';
 }
 
 export interface PluginMessage {
   type: MessageType;
-  option?: MessageOption;
+  option?: SkeletonOption;
 }
 
 export interface PluginEvent<T> extends Event {
