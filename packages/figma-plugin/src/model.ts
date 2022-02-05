@@ -22,7 +22,7 @@ export enum ERRORS {
  * Plugin Interface
  */
 
-export type MessageType = 'create-skeleton';
+export type MessageType = 'create-skeleton' | 'preview-code';
 export interface MessageOption {
   animation?: 'wave' | 'pulse' | 'unset';
   variant?: 'circle' | 'text';
@@ -31,4 +31,14 @@ export interface MessageOption {
 export interface PluginMessage {
   type: MessageType;
   option?: MessageOption;
+}
+
+export interface PluginEvent<T> extends Event {
+  data: {
+    pluginId: string;
+    pluginMessage: {
+      type: MessageType;
+      payload: T;
+    };
+  };
 }
