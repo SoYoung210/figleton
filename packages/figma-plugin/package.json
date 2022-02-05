@@ -6,6 +6,7 @@
   "scripts": {
     "test": "vitest",
     "prebuild": "rimraf dist",
+    "dev:ui": "webpack serve --open --mode=development",
     "start": "webpack --watch --mode=development",
     "build": "webpack --mode=production"
   },
@@ -52,7 +53,8 @@
     "vite": "^2.7.13",
     "vitest": "^0.2.5",
     "webpack": "^5.66.0",
-    "webpack-cli": "^4.9.1"
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.4"
   },
   "ntl": {
     "runner": "pnpm"

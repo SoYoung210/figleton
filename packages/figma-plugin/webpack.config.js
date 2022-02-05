@@ -4,72 +4,87 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 
-module.exports = (env, argv) => ({
-  // This is necessary because Figma's 'eval' works differently than normal eval
-  devtool: argv.mode === 'production' ? false : 'inline-source-map',
-
-  entry: {
-    ui: './src/index.tsx',
-    code: './src/code.ts',
-  },
-
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              ['@babel/preset-react'],
-              [
-                '@babel/preset-env',
-                {
-                  modules: 'commonjs',
-                },
-              ],
-              ['@babel/preset-typescript'],
-            ],
-          },
-        },
+module.exports = (env, argv) => {
+  return {
+    // This is necessary because Figma's 'eval' works differently than normal eval
+    devtool: argv.mode === 'production' ? false : 'inline-source-map',
+    devServer: {
+      static: {
+        directory: path.join(__dirname, 'dist'),
+        watch: true,
       },
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
+      port: 9000,
+    },
+    entry: {
+      ui: './src/index.tsx',
+      code: './src/code.ts',
+    },
+
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
             options: {
-              importLoaders: 1,
+              presets: [
+                ['@babel/preset-react'],
+                [
+                  '@babel/preset-env',
+                  {
+                    modules: 'commonjs',
+                  },
+                ],
+                ['@babel/preset-typescript'],
+              ],
             },
           },
-        ],
-      },
-      {
-        test: /\.svg/,
-        type: 'asset/inline',
-      },
-    ],
-  },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js'],
-    fallback: { path: require.resolve('path-browserify') },
-  },
+        },
+        {
+          test: /\.css$/,
+          use: [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1,
+              },
+            },
+          ],
+        },
+        {
+          test: /\.svg/,
+          type: 'asset/inline',
+        },
+      ],
+    },
+    resolve: {
+      extensions: ['.tsx', '.ts', '.jsx', '.js'],
+      fallback: { path: require.resolve('path-browserify') },
+    },
 
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './public/ui.html',
-      filename: 'ui.html',
-      inlineSource: '.(js)$',
-      chunks: ['ui'],
-      inject: 'body',
-      cache: 'false',
-    }),
-    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/ui/]),
-  ],
-});
+    optimization: env.WEBPACK_SERVE
+      ? {
+          runtimeChunk: 'single',
+        }
+      : undefined,
+
+    output: {
+      filename: '[name].js',
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: '/',
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: './public/ui.html',
+        filename: 'ui.html',
+        inlineSource: '.(js)$',
+        chunks: ['ui'],
+        inject: 'body',
+        cache: 'false',
+      }),
+      new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/ui/]),
+    ],
+  };
+};
