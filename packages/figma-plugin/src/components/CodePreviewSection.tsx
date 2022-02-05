@@ -20,7 +20,6 @@ export default function CodePreviewSection() {
       );
     }
   );
-  console.log('codeResult', codeResult);
 
   useEventListener<string>({ type: 'preview-code' }, e => {
     console.log('code preveiw', e.data.pluginMessage.payload);
