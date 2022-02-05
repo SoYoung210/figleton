@@ -1,3 +1,4 @@
+import { html_beautify } from 'js-beautify';
 import { NodeElement, NodePositionData } from './model/node';
 import { nodeConstants } from './node';
 
@@ -43,9 +44,8 @@ function skeletonJSXString(targetNode: NodePositionData): string {
     .join('')}</${elementType}>`;
 }
 
-// TODO: beautify for codeGen
 function beautify(rawHtml: string): string {
-  return rawHtml;
+  return html_beautify(rawHtml, { indent_size: 2, indent_with_tabs: false });
 }
 
 function isComponent(elementType: string) {
