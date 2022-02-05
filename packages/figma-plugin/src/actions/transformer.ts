@@ -30,22 +30,31 @@ function positionTree(
   };
 }
 
+type ElementType = 'Skeleton' | 'div';
 function skeletonJSXString(targetNode: NodePositionData): string {
   const { position, top, left, width, height, children } = targetNode;
-  const hasChildren = children != null && children.length > 0;
+  const shouldDrawSkeleton = children == null || children.length === 0;
 
-  const positionStyleString = `position: '${position}', top: ${top}, left: ${left}, width: ${width}, height: ${height}`;
-  // TODO: replace to render <Skeleton /> or not
-  const mockString = `, border: '1px solid red'`;
+  const styleString = `position: '${position}', top: ${top}, left: ${left}, width: ${width}, height: ${height}`;
+  const elementType: ElementType = shouldDrawSkeleton ? 'Skeleton' : 'div';
 
-  return `<div style={{ ${
-    hasChildren ? positionStyleString : positionStyleString.concat(mockString)
-  } }}>${(children ?? [])?.map(skeletonJSXString).join('')}</div>`;
+  return `<${elementType} style={{ ${styleString} }}>${(children ?? [])
+    ?.map(skeletonJSXString)
+    .join('')}</${elementType}>`;
 }
 
 // TODO: beautify for codeGen
 function beautify(rawHtml: string): string {
   return rawHtml;
+}
+
+function isComponent(elementType: string) {
+  return /[A-Z]/.test(elementType);
+}
+
+function getPropsByElementType(elementType: ElementType) {
+  if (elementType === 'Skeleton') {
+  }
 }
 
 export const transformer = {
