@@ -27,7 +27,8 @@
     "framer-motion": "^5",
     "path-browserify": "^1.0.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "shiki": "^0.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.12",
