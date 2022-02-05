@@ -1,8 +1,9 @@
 import { map, max, min, sum } from '@fxts/core';
-import { NodeElement } from '../model';
+import { NodeElement } from './model/node';
 
 const rootNodeId = 'ROOT_NODE_ID';
 const rootNodeName = 'ROOT_NODE_NAME';
+// TODO: change it to user option
 const UNSUPPORTED_NODE_TYPES: NodeType[] = [
   'BOOLEAN_OPERATION',
   'CODE_BLOCK',
