@@ -8,23 +8,25 @@ import {
   RadioGroup,
 } from '@chakra-ui/react';
 import React, { useCallback, useState } from 'react';
-import { MessageOption, PluginMessage } from '../model';
+import { PluginMessage, SkeletonOption } from '../model';
 
 export default function ConfigSection() {
   const [animation, setAnimation] =
-    useState<NonNullable<MessageOption['animation']>>('wave');
-  const [squareAs, setSquareAs] = useState('square');
+    useState<NonNullable<SkeletonOption['animation']>>('wave');
+  const [squareAs, setSquareAs] =
+    useState<NonNullable<SkeletonOption['squareAs']>>('text');
 
   const onCreate = useCallback(() => {
     const pluginMessage: PluginMessage = {
       type: 'create-skeleton',
       option: {
         animation,
+        squareAs,
       },
     };
 
     parent.postMessage({ pluginMessage }, '*');
-  }, [animation]);
+  }, [animation, squareAs]);
 
   return (
     <>
@@ -34,7 +36,7 @@ export default function ConfigSection() {
           value={animation}
           onChange={animationValue =>
             setAnimation(
-              animationValue as NonNullable<MessageOption['animation']>
+              animationValue as NonNullable<SkeletonOption['animation']>
             )
           }
         >
@@ -48,9 +50,16 @@ export default function ConfigSection() {
 
       <FormControl as="fieldset">
         <FormLabel as="legend">Square as</FormLabel>
-        <RadioGroup value={squareAs} onChange={setSquareAs}>
+        <RadioGroup
+          value={squareAs}
+          onChange={squareAsValue =>
+            setSquareAs(
+              squareAsValue as NonNullable<SkeletonOption['squareAs']>
+            )
+          }
+        >
           <HStack spacing={4}>
-            <Radio value="square">square</Radio>
+            <Radio value="text">square</Radio>
             <Radio value="circle">circle</Radio>
           </HStack>
         </RadioGroup>

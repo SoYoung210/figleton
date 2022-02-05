@@ -25,7 +25,7 @@ export enum ERRORS {
 export type MessageType = 'create-skeleton' | 'preview-code';
 export interface SkeletonOption {
   animation?: 'wave' | 'pulse' | 'unset';
-  variant?: 'circle' | 'text';
+  squareAs?: 'text' | 'circle';
 }
 
 export interface PluginMessage {
