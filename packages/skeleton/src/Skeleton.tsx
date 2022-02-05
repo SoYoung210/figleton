@@ -61,8 +61,6 @@ const SkeletonRoot = styled('span', {
           ((Number(theme.radii.sm.value) / 0.6) * 10) / 10
         )}px`,
         height: 'auto',
-        transformOrigin: '0 55%',
-        transform: 'scale(1, 0.60)',
         '&:empty:before': {
           content: '"\\00a0"',
         },
