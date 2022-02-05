@@ -1,22 +1,34 @@
-export interface RenderBounds {
-  x: number;
-  y: number;
-  height: number | string;
-  width: number | string;
-}
-export interface NodeElement {
-  id: string;
-  name: string;
-  children: NodeElement[] | undefined;
-  renderBounds: RenderBounds;
-  type: NodeType;
+/**
+ * ERRORS
+ */
+export class CodedError extends Error {
+  public code: ERRORS;
+  public hideStack: boolean;
+
+  constructor(code: ERRORS, message: string, hideStack = false) {
+    super(message);
+    this.code = code;
+    this.hideStack = hideStack;
+    Object.setPrototypeOf(this, CodedError.prototype);
+  }
 }
 
-export interface NodePositionData {
-  position: 'relative' | 'absolute';
-  children: NodePositionData[] | undefined;
-  height: number | string;
-  width: number | string;
-  top: number;
-  left: number;
+export enum ERRORS {
+  UNEXPECTED = 'UNEXPECTED',
+  NO_SELECTION = 'NO_SELECTION',
+}
+
+/**
+ * Plugin Interface
+ */
+
+export type MessageType = 'create-skeleton';
+export interface MessageOption {
+  animation?: 'wave' | 'pulse' | 'unset';
+  variant?: 'circle' | 'text';
+}
+
+export interface PluginMessage {
+  type: MessageType;
+  option?: MessageOption;
 }

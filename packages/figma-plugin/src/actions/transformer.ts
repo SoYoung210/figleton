@@ -1,4 +1,4 @@
-import { NodeElement, NodePositionData } from '../model';
+import { NodeElement, NodePositionData } from './model/node';
 import { nodeConstants } from './node';
 
 function positionTree(
