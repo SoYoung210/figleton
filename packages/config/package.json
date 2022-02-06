@@ -7,9 +7,6 @@
   "files": [
     "eslint-next.js"
   ],
-  "scripts": {
-    "test": "exit 0"
-  },
   "dependencies": {
     "eslint-config-next": "^12.0.8"
   },
