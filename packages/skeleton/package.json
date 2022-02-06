@@ -2,12 +2,21 @@
   "name": "@figeleton/skeleton",
   "private": "true",
   "version": "0.0.0",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/esm/index.js",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "license": "MIT",
   "scripts": {
+    "test": "exit 0",
     "storybook": "NODE_ENV=storybook start-storybook -p 6006",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint . --ext .ts,.tsx",
+    "build:type": "yarn run -T tsc --emitDeclarationOnly --declaration",
+    "build": "node ./scripts/build.js && pnpm build:type"
   },
   "ntl": {
     "runner": "pnpm"
