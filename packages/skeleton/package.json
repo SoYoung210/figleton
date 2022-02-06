@@ -12,7 +12,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "test": "exit 0",
+    "test": "pnpm build",
     "storybook": "NODE_ENV=storybook start-storybook -p 6006",
     "lint": "eslint . --ext .ts,.tsx",
     "build:type": "yarn run -T tsc --emitDeclarationOnly --declaration",
