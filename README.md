@@ -1,5 +1,7 @@
 # figeleton
 
+![cover art](./assets/cover_art.jpg)
+
 Skeleton Code Generator Figma Plugin consisting of [@figeleton/skeleton](#figeleton-skeleton) package and [@figeleton/figma-plugin](#figeleton-figma-plugin)
 
 Skeleton components generated in @figeleton/figma-plugin follow the specifications of @figeleton/skeleton.
