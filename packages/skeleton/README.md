@@ -1,3 +1,15 @@
 ## @figeleton/skeleton
 
-Skeleton Component Package
+## Prerequisites
+
+Install [pnpm](https://pnpm.io/installation).
+
+```bash
+$ pnpm intsall
+$ pnpm run start
+```
+## Run
+
+```
+$ pnpm run storybook
+```
