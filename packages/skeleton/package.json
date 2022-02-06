@@ -16,6 +16,8 @@
   "scripts": {
     "test": "pnpm build",
     "storybook": "NODE_ENV=storybook start-storybook -p 6006",
+    "deploy-storybook": "storybook-to-ghpages",
+    "build-storybook": "build-storybook",
     "lint": "eslint . --ext .ts,.tsx",
     "build:type": "yarn run -T tsc --emitDeclarationOnly --declaration",
     "build": "node ./scripts/build.js && pnpm build:type"
@@ -29,6 +31,7 @@
     "@figeleton/tsconfig": "workspace:*",
     "@storybook/addon-essentials": "^6.4.17",
     "@storybook/react": "^6.4.17",
+    "@storybook/storybook-deployer": "^2.8.10",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
     "babel-loader": "^8.2.3",
