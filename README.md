@@ -18,15 +18,21 @@ Generate Skeleton Component from [Figma](https://www.figma.com). Use Figma as a 
 
 ### Options
 
-| Name      | Value                  | Description                                                                            |
-| --------- | ---------------------- | -------------------------------------------------------------------------------------- |
-| Animation | `wave` `pulse` `unset` | Value of Skeleton animation prop. Preview of the option can be found here.             |
-| Square as | `square` `circle`      | whether to generate a square node on Figma as a circular skeleton or as it(square) is. |
+| Name      | Value                  | Description                                                                                                                                               |
+| --------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Animation | `wave` `pulse` `unset` | Value of Skeleton animation prop. Preview of the option can be found [here](https://soyoung210.github.io/figeleton/?path=/story/example-skeleton--basic). |
+| Square as | `square` `circle`      | whether to generate a square node on Figma as a circular skeleton or as it(square) is.                                                                    |
 
 
 ## @figeleton/skelton
 
 Skeleton component. (It can be used alone regardless of figma plugin.)
+
+### Usage
+
+```
+npm install @figeleton/skeleton
+```
 
 ## Contributing
 
