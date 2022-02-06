@@ -59,4 +59,110 @@ describe('[StringFormatter] positionTree', () => {
       expect(child.height).toBe(generateMockBoundsValue('HEIGHT', index));
     });
   });
+
+  test('when 2 depth children', () => {
+    const childNode = { ...rawBaseMockNodes, name: 'childrenNode' };
+
+    const baseMockNodes = {
+      ...rawBaseMockNodes,
+      children: [childNode],
+    };
+
+    const mockNodes = [
+      {
+        ...baseMockNodes,
+        children: arrayOf(3).map((_, index) => ({
+          ...baseMockNodes,
+          children: arrayOf(1).map((_, index) => ({
+            ...baseMockNodes,
+            x: generateMockBoundsValue('X', index),
+            y: generateMockBoundsValue('Y', index),
+            width: generateMockBoundsValue('WIDTH', index),
+            height: generateMockBoundsValue('HEIGHT', index),
+            name: generateMockLabel(baseMockNodes.name, index),
+            id: generateMockLabel(baseMockNodes.id, index),
+          })),
+          x: generateMockBoundsValue('X', index),
+          y: generateMockBoundsValue('Y', index),
+          width: generateMockBoundsValue('WIDTH', index),
+          height: generateMockBoundsValue('HEIGHT', index),
+          name: generateMockLabel(baseMockNodes.name, index),
+          id: generateMockLabel(baseMockNodes.id, index),
+        })),
+      },
+    ];
+    const element = nodeParser.init(mockNodes as any);
+    const result = transformer.positionTree(element, element);
+
+    result.children?.forEach(child => {
+      expect(Array.isArray(child.children)).toBe(true);
+
+      child.children?.forEach((innerChild, index) => {
+        expect(innerChild.left).toBe(generateMockBoundsValue('X', index));
+        expect(innerChild.top).toBe(generateMockBoundsValue('Y', index));
+        expect(innerChild.width).toBe(generateMockBoundsValue('WIDTH', index));
+        expect(innerChild.height).toBe(
+          generateMockBoundsValue('HEIGHT', index)
+        );
+      });
+    });
+  });
+
+  test('has unsupported node type', () => {
+    const unsupportedMockWidth = 100;
+    const supportedMockWidth = 50;
+
+    const mockNodes = [
+      {
+        ...rawBaseMockNodes,
+        children: [
+          /* Unsupported Type */
+          {
+            ...rawBaseMockNodes,
+            width: unsupportedMockWidth,
+            type: 'BOOLEAN_OPERATION',
+          },
+          {
+            ...rawBaseMockNodes,
+            width: unsupportedMockWidth,
+            type: 'BOOLEAN_OPERATION',
+          },
+          {
+            ...rawBaseMockNodes,
+            width: unsupportedMockWidth,
+            type: 'BOOLEAN_OPERATION',
+          },
+          {
+            ...rawBaseMockNodes,
+            width: unsupportedMockWidth,
+            type: 'BOOLEAN_OPERATION',
+          },
+          {
+            ...rawBaseMockNodes,
+            width: unsupportedMockWidth,
+            type: 'BOOLEAN_OPERATION',
+          },
+          /* Supported Type */
+          { ...rawBaseMockNodes, width: supportedMockWidth, type: 'COMPONENT' },
+          { ...rawBaseMockNodes, width: supportedMockWidth, type: 'INSTANCE' },
+          {
+            ...rawBaseMockNodes,
+            width: supportedMockWidth,
+            type: 'SHAPE_WITH_TEXT',
+          },
+        ],
+      },
+    ];
+
+    const element = nodeParser.init(mockNodes as any);
+    const result = transformer.positionTree(element, element);
+
+    expect(result.children?.length).toBe(3);
+
+    expect(
+      result.children
+        ?.map(({ width }) => width)
+        .every(mockWidth => mockWidth !== unsupportedMockWidth)
+    ).toBe(true);
+  });
 });
