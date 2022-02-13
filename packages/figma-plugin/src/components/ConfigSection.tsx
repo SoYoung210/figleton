@@ -10,10 +10,12 @@ import {
   RadioGroup,
   SimpleGrid,
   VStack,
+  Spinner,
 } from '@chakra-ui/react';
-import React, { FormEvent, useCallback } from 'react';
+import React, { FormEvent, useCallback, useState } from 'react';
 import { PluginMessage, SkeletonOption } from '../model';
 import { CodeSandboxLogoIcon } from '@radix-ui/react-icons';
+import useEventListener from '../hooks/event';
 
 interface FormValue {
   animation: {
@@ -29,7 +31,24 @@ interface FormValue {
     value: string;
   };
 }
+
+interface OptionValue {
+  animation: NonNullable<SkeletonOption['animation']>;
+  squareAs: NonNullable<SkeletonOption['squareAs']>;
+  startColor: string;
+  endColor: string;
+}
+
 export default function ConfigSection() {
+  const [loadingState, setLoadingState] = useState<'loading' | 'idle'>(
+    'loading'
+  );
+  const [defaultValues, setDefaultValues] = useState<OptionValue>({
+    animation: 'wave',
+    squareAs: 'text',
+    startColor: '#e3e3e3',
+    endColor: '#dedede',
+  });
   const onCreate = useCallback((e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -48,12 +67,26 @@ export default function ConfigSection() {
     parent.postMessage({ pluginMessage }, '*');
   }, []);
 
+  useEventListener<OptionValue | undefined>(
+    { type: 'sync-storage-config-value' },
+    e => {
+      if (e.data.pluginMessage.payload != null) {
+        setDefaultValues(e.data.pluginMessage.payload);
+      }
+      setLoadingState('idle');
+    }
+  );
+
+  if (loadingState == 'loading') {
+    return <Spinner />;
+  }
+
   return (
     <form onSubmit={onCreate} style={{ width: '100%' }}>
       <VStack spacing="24px" align="start">
         <FormControl as="fieldset">
           <FormLabel as="legend">Animation</FormLabel>
-          <RadioGroup defaultValue="wave" name="animation">
+          <RadioGroup defaultValue={defaultValues.animation} name="animation">
             <HStack spacing={4}>
               <Radio value="wave">wave</Radio>
               <Radio value="pulse">pulse</Radio>
@@ -64,7 +97,7 @@ export default function ConfigSection() {
 
         <FormControl as="fieldset">
           <FormLabel as="legend">Square as</FormLabel>
-          <RadioGroup name="squareAs" defaultValue="text">
+          <RadioGroup name="squareAs" defaultValue={defaultValues.squareAs}>
             <HStack spacing={4}>
               <Radio value="text">square</Radio>
               <Radio value="circle">circle</Radio>
@@ -83,7 +116,7 @@ export default function ConfigSection() {
               <Input
                 name="startColor"
                 placeholder="startColor"
-                defaultValue="#e3e3e3"
+                defaultValue={defaultValues.startColor}
                 type="color"
               />
             </VStack>
@@ -96,7 +129,7 @@ export default function ConfigSection() {
               <Input
                 name="endColor"
                 placeholder="endColor"
-                defaultValue="#dedede"
+                defaultValue={defaultValues.endColor}
                 type="color"
               />
             </VStack>
