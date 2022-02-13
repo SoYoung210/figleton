@@ -19,19 +19,16 @@ const UNSUPPORTED_NODE_TYPES: NodeType[] = [
 function initWithRootNode(
   selectionNodes: ReadonlyArray<SceneNode>
 ): NodeElement {
+  console.log('selectionNodes', selectionNodes);
+
   if (selectionNodes.length === 1) {
     const rootNode = selectionNodes[0];
-    const { x, y, width, height } = rootNode;
+    const renderBounds = getRenderBounds(rootNode);
 
     const baseNode = {
       name: rootNodeName,
       id: rootNodeId,
-      renderBounds: {
-        x,
-        y,
-        width,
-        height,
-      },
+      renderBounds,
     };
 
     /**
@@ -46,7 +43,6 @@ function initWithRootNode(
           : undefined,
     };
   }
-  console.log('selectionNodes', selectionNodes);
 
   const positions = selectionNodes.map(node => ({
     absoluteRenderBounds: (node as any).absoluteRenderBounds as RenderBounds,
@@ -79,16 +75,19 @@ function toNodeElement(node: SceneNode): NodeElement {
     name: node.name,
     type: node.type,
     children: 'children' in node ? node.children.map(toNodeElement) : undefined,
-    renderBounds:
-      'absoluteRenderBounds' in node && node.absoluteRenderBounds != null
-        ? node.absoluteRenderBounds
-        : {
-            x: node.x,
-            y: node.y,
-            height: node.height,
-            width: node.width,
-          },
+    renderBounds: getRenderBounds(node),
   };
+}
+
+function getRenderBounds(node: SceneNode): RenderBounds {
+  return 'absoluteRenderBounds' in node && node.absoluteRenderBounds != null
+    ? node.absoluteRenderBounds
+    : {
+        x: node.x,
+        y: node.y,
+        height: node.height,
+        width: node.width,
+      };
 }
 
 export const nodeParser = {
