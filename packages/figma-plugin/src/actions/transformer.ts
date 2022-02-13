@@ -1,15 +1,15 @@
 import { html_beautify } from 'js-beautify';
 import { SkeletonOption } from '../model';
-import { NodeElement, NodePositionData } from './model/node';
+import { NodeElement, NodeMetaData } from './model/node';
 import { nodeConstants } from './node';
 
 /**
  * Comparison of parent parent's absoluteX and absoluteY values and children's x and y values
  */
-function positionTree(
+function toMetaTree(
   targetNode: NodeElement,
   rootNode: NodeElement
-): NodePositionData {
+): NodeMetaData {
   const isRootNode = targetNode.id === rootNode.id;
   const nextValidChildren = targetNode.children?.filter(
     ({ type }) => !nodeConstants.unsupportedTypes.includes(type)
@@ -21,23 +21,25 @@ function positionTree(
   const left = isRootNode ? 0 : x - rootNode.renderBounds.x;
 
   return {
+    name: targetNode.name,
     position,
     top,
     left,
     width,
     height,
     children: nextValidChildren?.map(nextNode =>
-      positionTree(nextNode, targetNode)
+      toMetaTree(nextNode, targetNode)
     ),
   };
 }
 
+const DATA_ATTR_NAME = 'data-skeleton-name';
 type ElementType = 'Skeleton' | 'div';
 function skeletonJSXString(
-  targetNode: NodePositionData,
+  targetNode: NodeMetaData,
   options: SkeletonOption | undefined = {}
 ): string {
-  const { position, top, left, width, height, children } = targetNode;
+  const { position, top, left, width, height, children, name } = targetNode;
   const shouldDrawSkeleton = children == null || children.length === 0;
 
   const isNumericWidth = typeof width === 'number';
@@ -55,7 +57,7 @@ function skeletonJSXString(
     isSquareLike,
   });
 
-  return `<${elementType} style={{ ${styleString} }} ${customProps}>${(
+  return `<${elementType} style={{ ${styleString} }} ${DATA_ATTR_NAME}="${name}" ${customProps}>${(
     children ?? []
   )
     ?.map(childNode => skeletonJSXString(childNode, options))
@@ -96,7 +98,7 @@ function isComponent(elementType: string) {
 }
 
 export const transformer = {
-  positionTree,
+  toMetaTree,
   skeletonJSXString,
   beautify,
 };

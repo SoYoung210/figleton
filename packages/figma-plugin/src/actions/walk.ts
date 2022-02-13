@@ -18,7 +18,7 @@ export default function walk(
   return pipe(
     selectionNodes,
     nodeParser.init,
-    nodeElement => transformer.positionTree(nodeElement, nodeElement),
+    nodeElement => transformer.toMetaTree(nodeElement, nodeElement),
     targetNode => transformer.skeletonJSXString(targetNode, options),
     transformer.beautify
   );
