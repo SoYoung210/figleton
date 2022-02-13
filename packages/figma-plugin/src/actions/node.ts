@@ -1,5 +1,5 @@
-import { map, max, min, sum } from '@fxts/core';
-import { NodeElement } from './model/node';
+import { map, min } from '@fxts/core';
+import { NodeElement, RenderBounds } from './model/node';
 
 const rootNodeId = 'ROOT_NODE_ID';
 const rootNodeName = 'ROOT_NODE_NAME';
@@ -46,25 +46,26 @@ function initWithRootNode(
           : undefined,
     };
   }
+  console.log('selectionNodes', selectionNodes);
 
-  const positions = selectionNodes.map(node => ({ x: node.x, y: node.y }));
-  const baseX = min(map(({ x }) => x, positions));
-  const baseY = min(map(({ y }) => y, positions));
-
-  const sizes = selectionNodes.map(node => ({
-    width: node.width,
-    height: node.height,
+  const positions = selectionNodes.map(node => ({
+    absoluteRenderBounds: (node as any).absoluteRenderBounds as RenderBounds,
   }));
-  const containerWidth = max(map(({ width }) => width, sizes));
-  const containerHeight = sum(map(({ height }) => height, sizes));
+
+  const baseX = min(
+    map(({ absoluteRenderBounds }) => absoluteRenderBounds.x, positions)
+  );
+  const baseY = min(
+    map(({ absoluteRenderBounds }) => absoluteRenderBounds.y, positions)
+  );
 
   return {
     name: rootNodeName,
     id: rootNodeId,
     type: 'FRAME',
     renderBounds: {
-      width: containerWidth,
-      height: containerHeight,
+      width: '100%',
+      height: '100%',
       x: baseX,
       y: baseY,
     },
@@ -78,12 +79,15 @@ function toNodeElement(node: SceneNode): NodeElement {
     name: node.name,
     type: node.type,
     children: 'children' in node ? node.children.map(toNodeElement) : undefined,
-    renderBounds: {
-      x: node.x,
-      y: node.y,
-      height: node.height,
-      width: node.width,
-    },
+    renderBounds:
+      'absoluteRenderBounds' in node && node.absoluteRenderBounds != null
+        ? node.absoluteRenderBounds
+        : {
+            x: node.x,
+            y: node.y,
+            height: node.height,
+            width: node.width,
+          },
   };
 }
 
