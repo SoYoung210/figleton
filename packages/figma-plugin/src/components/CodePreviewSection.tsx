@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  useClipboard,
-  Spinner,
-  Stack,
-  Skeleton,
-} from '@chakra-ui/react';
+import { Box, Button, useClipboard, Stack, Skeleton } from '@chakra-ui/react';
 import React, { useRef, useState } from 'react';
 import { getHighlighter, setCDN } from 'shiki';
 import styled from '@emotion/styled';

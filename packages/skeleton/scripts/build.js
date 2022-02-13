@@ -16,6 +16,7 @@ const config = {
   bundle: true,
   minify: true,
   sourcemap: true,
+  inject: [path.resolve(__dirname, './react-shim.js')],
   external: [
     ...Object.keys(packageJSON.dependencies ?? {}),
     ...Object.keys(packageJSON.peerDependencies ?? {}),

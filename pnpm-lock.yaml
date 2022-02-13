@@ -85,6 +85,7 @@ importers:
       '@figeleton/tsconfig': workspace:*
       '@figma/plugin-typings': ^1.41.1
       '@fxts/core': ^0.4.2
+      '@radix-ui/react-icons': ^1.0.3
       '@types/cheerio': ^0.22.30
       '@types/js-beautify': ^1.13.3
       '@types/react': ^17.0.38
@@ -115,6 +116,7 @@ importers:
       '@emotion/react': 11.7.1_91de5bc04873a2ecfed8879f8166219d
       '@emotion/styled': 11.6.0_5e8f57678a77e349831a88361eba8fdc
       '@fxts/core': 0.4.2
+      '@radix-ui/react-icons': 1.0.3_react@17.0.2
       add: 2.0.6
       cheerio: 1.0.0-rc.10
       framer-motion: 5.6.0_react-dom@17.0.2+react@17.0.2
@@ -2974,6 +2976,14 @@ packages:
   /@popperjs/core/2.11.2:
     resolution: {integrity: sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==}
 
+  /@radix-ui/react-icons/1.0.3_react@17.0.2:
+    resolution: {integrity: sha512-YbPAUZwTsvF/2H7IU35txaLUB+JNSV8GIhnswlqiFODP/P32t5op5keYUvQWsSj9TA0VLF367J24buUjIprn0w==}
+    peerDependencies:
+      react: ^16.x || ^17.x
+    dependencies:
+      react: 17.0.2
+    dev: false
+
   /@reach/alert/0.13.2_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-LDz83AXCrClyq/MWe+0vaZfHp1Ytqn+kgL5VxG7rirUvmluWaj/snxzfNPWn0Ma4K2YENmXXRC/iHt5X95SqIg==}
     peerDependencies:
@@ -5718,7 +5728,7 @@ packages:
       loader-utils: 1.4.0
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: 5.68.0_esbuild@0.14.18
+      webpack: 5.68.0_webpack-cli@4.9.2
     dev: true
 
   /babel-plugin-add-react-displayname/0.0.5:

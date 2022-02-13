@@ -22,7 +22,10 @@ export enum ERRORS {
  * Plugin Interface
  */
 
-export type MessageType = 'create-skeleton' | 'preview-code';
+export type MessageType =
+  | 'create-skeleton'
+  | 'preview-code'
+  | 'sync-storage-config-value';
 export interface SkeletonOption {
   animation?: 'wave' | 'pulse' | 'unset';
   squareAs?: 'text' | 'circle';
