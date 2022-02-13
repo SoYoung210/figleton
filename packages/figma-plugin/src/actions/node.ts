@@ -1,8 +1,8 @@
 import { map, min } from '@fxts/core';
 import { NodeElement, RenderBounds } from './model/node';
 
-const rootNodeId = 'ROOT_NODE_ID';
-const rootNodeName = 'ROOT_NODE_NAME';
+const rootNodeId = 'ROOT_ID';
+const rootNodeName = 'ROOT_NODE';
 // TODO: change it to user option
 const UNSUPPORTED_NODE_TYPES: NodeType[] = [
   'BOOLEAN_OPERATION',

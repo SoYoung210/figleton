@@ -27,7 +27,7 @@ function generateMockBoundsValue(key: keyof typeof MOCK_OFFSET, index: number) {
   return (index + 1) * MOCK_OFFSET[key];
 }
 
-describe('[StringFormatter] positionTree', () => {
+describe('[StringFormatter] toMetaTree', () => {
   test('when 1 depth children', () => {
     const baseMockNodes = rawBaseMockNodes;
     const mockNodes = [
@@ -45,7 +45,7 @@ describe('[StringFormatter] positionTree', () => {
       },
     ];
     const element = nodeParser.init(mockNodes as any);
-    const result = transformer.positionTree(element, element);
+    const result = transformer.toMetaTree(element, element);
 
     // rootNode property
     expect(result.position).toBe('relative');
@@ -92,7 +92,7 @@ describe('[StringFormatter] positionTree', () => {
       },
     ];
     const element = nodeParser.init(mockNodes as any);
-    const result = transformer.positionTree(element, element);
+    const result = transformer.toMetaTree(element, element);
 
     result.children?.forEach((child, index) => {
       expect(Array.isArray(child.children)).toBe(true);
@@ -168,7 +168,7 @@ describe('[StringFormatter] positionTree', () => {
     ];
 
     const element = nodeParser.init(mockNodes as any);
-    const result = transformer.positionTree(element, element);
+    const result = transformer.toMetaTree(element, element);
 
     expect(result.children?.length).toBe(3);
 

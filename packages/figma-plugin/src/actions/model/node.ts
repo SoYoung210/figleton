@@ -12,9 +12,10 @@ export interface NodeElement {
   type: NodeType;
 }
 
-export interface NodePositionData {
+export interface NodeMetaData {
+  name: string;
   position: 'relative' | 'absolute';
-  children: NodePositionData[] | undefined;
+  children: NodeMetaData[] | undefined;
   height: number | string;
   width: number | string;
   top: number;
