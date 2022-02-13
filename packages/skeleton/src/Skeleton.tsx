@@ -25,7 +25,7 @@ export default function Skeleton({
   width,
   style,
   startColor = '$primary',
-  endColor = '$weak',
+  endColor = '$emphasis',
   ...props
 }: PropsWithChildren<Props>) {
   const hasChildren = Boolean(children);
