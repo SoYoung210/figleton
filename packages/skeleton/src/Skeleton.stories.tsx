@@ -22,6 +22,18 @@ const Template: ComponentStory<typeof Skeleton> = args => {
       <Skeleton variant="text" />
       <h3>Circle</h3>
       <Skeleton variant="circle" height={40} width={40} />
+      <h3>Animation</h3>
+      <div style={{ display: 'flex', columnGap: 10 }}>
+        pulse: <Skeleton variant="text" animation="pulse" width="200px" />
+        wave: <Skeleton variant="text" animation="wave" width="200px" />
+      </div>
+      <h3>Custom Animation Color</h3>
+      <Skeleton
+        variant="text"
+        startColor="#D53F8C"
+        endColor="#DD6B20"
+        animation="wave"
+      />
     </div>
   );
 };
