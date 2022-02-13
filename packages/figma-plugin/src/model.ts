@@ -26,6 +26,8 @@ export type MessageType = 'create-skeleton' | 'preview-code';
 export interface SkeletonOption {
   animation?: 'wave' | 'pulse' | 'unset';
   squareAs?: 'text' | 'circle';
+  startColor?: string;
+  endColor?: string;
 }
 
 export interface PluginMessage {

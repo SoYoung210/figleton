@@ -73,7 +73,13 @@ function getPropsByElementType(
   elementType: ElementType,
   options: GetPropsParams | undefined = { isSquareLike: false }
 ) {
-  const { animation = 'wave', squareAs = 'text', isSquareLike } = options;
+  const {
+    animation = 'wave',
+    squareAs = 'text',
+    isSquareLike,
+    startColor,
+    endColor,
+  } = options;
 
   if (!isComponent(elementType)) {
     return '';
@@ -82,7 +88,7 @@ function getPropsByElementType(
   const variant = isSquareLike && squareAs === 'circle' ? 'circle' : 'text';
 
   if (elementType === 'Skeleton') {
-    return `animation="${animation}" variant="${variant}"`;
+    return `animation="${animation}" variant="${variant}" startColor="${startColor}" endColor="${endColor}"`;
   }
 }
 function isComponent(elementType: string) {
