@@ -58,3 +58,5 @@ export const waveKeyframe = keyframes({
 });
 
 export type StitchesCSS = Stitches.CSS<typeof config>;
+export type PropertyValue<Property extends keyof Stitches.CSSProperties> =
+  Stitches.PropertyValue<Property, typeof config>;
