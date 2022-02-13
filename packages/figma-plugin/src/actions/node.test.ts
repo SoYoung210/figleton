@@ -36,8 +36,8 @@ describe('[NodeParser] init - when selection node length === 1', () => {
     expect(result).toHaveProperty('renderBounds', {
       x: baseMockNodes.x,
       y: baseMockNodes.y,
-      width: baseMockNodes.width,
-      height: baseMockNodes.height,
+      width: '100%',
+      height: '100%',
     });
 
     result.children?.forEach((child, index) => {
@@ -111,8 +111,8 @@ describe('[NodeParser] init - when selection node length > 1', () => {
     expect(result.renderBounds).toEqual({
       x: rawBaseMockNodes.x,
       y: rawBaseMockNodes.y,
-      width: rawBaseMockNodes.width,
-      height: rawBaseMockNodes.height * nodeCount,
+      width: '100%',
+      height: '100%',
     });
 
     result.children?.forEach((child, index) => {

@@ -19,8 +19,6 @@ const UNSUPPORTED_NODE_TYPES: NodeType[] = [
 function initWithRootNode(
   selectionNodes: ReadonlyArray<SceneNode>
 ): NodeElement {
-  console.log('selectionNodes', selectionNodes);
-
   if (selectionNodes.length === 1) {
     const rootNode = selectionNodes[0];
     const renderBounds = getRenderBounds(rootNode);
@@ -28,7 +26,11 @@ function initWithRootNode(
     const baseNode = {
       name: rootNodeName,
       id: rootNodeId,
-      renderBounds,
+      renderBounds: {
+        ...renderBounds,
+        width: '100%',
+        height: '100%',
+      },
     };
 
     /**
@@ -45,7 +47,7 @@ function initWithRootNode(
   }
 
   const positions = selectionNodes.map(node => ({
-    absoluteRenderBounds: (node as any).absoluteRenderBounds as RenderBounds,
+    absoluteRenderBounds: getRenderBounds(node),
   }));
 
   const baseX = min(
