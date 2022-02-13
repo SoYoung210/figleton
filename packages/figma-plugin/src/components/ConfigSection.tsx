@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import React, { FormEvent, useCallback } from 'react';
 import { PluginMessage, SkeletonOption } from '../model';
+import { CodeSandboxLogoIcon } from '@radix-ui/react-icons';
 
 interface FormValue {
   animation: {
@@ -101,7 +102,19 @@ export default function ConfigSection() {
             </VStack>
           </SimpleGrid>
         </FormControl>
-        <Button type="submit">Create</Button>
+        <HStack spacing={4}>
+          <Button type="submit">Create</Button>
+          <Button
+            type="button"
+            variant="outline"
+            as="a"
+            href="https://codesandbox.io/s/figleton-skeleton-playground-ugbht"
+            target="_blank"
+            leftIcon={<CodeSandboxLogoIcon />}
+          >
+            CodeSandbox
+          </Button>
+        </HStack>
       </VStack>
     </form>
   );
