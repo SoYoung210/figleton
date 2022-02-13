@@ -26,8 +26,8 @@ export const {
     zIndices: {},
     transitions: {},
     colors: {
-      primary: 'rgba(0, 0, 0, 0.11)',
-      weak: 'rgba(0, 0, 0, 0.04)',
+      primary: '#e3e3e3',
+      emphasis: '#dedede',
     },
   },
   utils: {},
@@ -58,3 +58,5 @@ export const waveKeyframe = keyframes({
 });
 
 export type StitchesCSS = Stitches.CSS<typeof config>;
+export type PropertyValue<Property extends keyof Stitches.CSSProperties> =
+  Stitches.PropertyValue<Property, typeof config>;

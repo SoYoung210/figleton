@@ -94,15 +94,28 @@ describe('[StringFormatter] positionTree', () => {
     const element = nodeParser.init(mockNodes as any);
     const result = transformer.positionTree(element, element);
 
-    result.children?.forEach(child => {
+    result.children?.forEach((child, index) => {
       expect(Array.isArray(child.children)).toBe(true);
+      const parentLeft = generateMockBoundsValue('X', index);
+      const parentTop = generateMockBoundsValue('Y', index);
 
-      child.children?.forEach((innerChild, index) => {
-        expect(innerChild.left).toBe(generateMockBoundsValue('X', index));
-        expect(innerChild.top).toBe(generateMockBoundsValue('Y', index));
-        expect(innerChild.width).toBe(generateMockBoundsValue('WIDTH', index));
+      expect(child.left).toBe(parentLeft);
+      expect(child.top).toBe(parentTop);
+      expect(child.width).toBe(generateMockBoundsValue('WIDTH', index));
+      expect(child.height).toBe(generateMockBoundsValue('HEIGHT', index));
+
+      child.children?.forEach((innerChild, innerIndex) => {
+        expect(innerChild.left).toBe(
+          generateMockBoundsValue('X', innerIndex) - parentLeft
+        );
+        expect(innerChild.top).toBe(
+          generateMockBoundsValue('Y', innerIndex) - parentTop
+        );
+        expect(innerChild.width).toBe(
+          generateMockBoundsValue('WIDTH', innerIndex)
+        );
         expect(innerChild.height).toBe(
-          generateMockBoundsValue('HEIGHT', index)
+          generateMockBoundsValue('HEIGHT', innerIndex)
         );
       });
     });

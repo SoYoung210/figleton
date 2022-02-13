@@ -3,22 +3,22 @@ import { SkeletonOption } from '../model';
 import { NodeElement, NodePositionData } from './model/node';
 import { nodeConstants } from './node';
 
+/**
+ * Comparison of parent parent's absoluteX and absoluteY values and children's x and y values
+ */
 function positionTree(
   targetNode: NodeElement,
   rootNode: NodeElement
 ): NodePositionData {
   const isRootNode = targetNode.id === rootNode.id;
-  const isFirstChild = rootNode.children?.some(
-    rootChild => rootChild.id === targetNode.id
-  );
   const nextValidChildren = targetNode.children?.filter(
     ({ type }) => !nodeConstants.unsupportedTypes.includes(type)
   );
 
   const position = isRootNode ? 'relative' : 'absolute';
   const { x, y, width, height } = targetNode.renderBounds;
-  const top = isRootNode ? 0 : isFirstChild ? y - rootNode.renderBounds.y : y;
-  const left = isRootNode ? 0 : isFirstChild ? x - rootNode.renderBounds.x : x;
+  const top = isRootNode ? 0 : y - rootNode.renderBounds.y;
+  const left = isRootNode ? 0 : x - rootNode.renderBounds.x;
 
   return {
     position,
@@ -27,7 +27,7 @@ function positionTree(
     width,
     height,
     children: nextValidChildren?.map(nextNode =>
-      positionTree(nextNode, rootNode)
+      positionTree(nextNode, targetNode)
     ),
   };
 }
@@ -40,10 +40,15 @@ function skeletonJSXString(
   const { position, top, left, width, height, children } = targetNode;
   const shouldDrawSkeleton = children == null || children.length === 0;
 
-  const isNumericSize = typeof width === 'number' && typeof height === 'number';
+  const isNumericWidth = typeof width === 'number';
+  const isNumericHeight = typeof height === 'number';
+  const isNumericSize = isNumericWidth && isNumericHeight;
   const isSquareLike = isNumericSize && Math.abs(1 - height / width) < 0.1;
 
-  const styleString = `position: '${position}', top: ${top}, left: ${left}, width: ${width}, height: ${height}`;
+  const styleString = `position: '${position}', top: ${top}, left: ${left}, width: ${
+    isNumericWidth ? width : `'${width}'`
+  }, height: ${isNumericHeight ? height : `'${height}'`}`;
+
   const elementType: ElementType = shouldDrawSkeleton ? 'Skeleton' : 'div';
   const customProps = getPropsByElementType(elementType, {
     ...options,
@@ -68,7 +73,13 @@ function getPropsByElementType(
   elementType: ElementType,
   options: GetPropsParams | undefined = { isSquareLike: false }
 ) {
-  const { animation = 'wave', squareAs = 'text', isSquareLike } = options;
+  const {
+    animation = 'wave',
+    squareAs = 'text',
+    isSquareLike,
+    startColor,
+    endColor,
+  } = options;
 
   if (!isComponent(elementType)) {
     return '';
@@ -77,7 +88,7 @@ function getPropsByElementType(
   const variant = isSquareLike && squareAs === 'circle' ? 'circle' : 'text';
 
   if (elementType === 'Skeleton') {
-    return `animation="${animation}" variant="${variant}"`;
+    return `animation="${animation}" variant="${variant}" startColor="${startColor}" endColor="${endColor}"`;
   }
 }
 function isComponent(elementType: string) {

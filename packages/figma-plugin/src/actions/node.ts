@@ -1,5 +1,5 @@
-import { map, max, min, sum } from '@fxts/core';
-import { NodeElement } from './model/node';
+import { map, min } from '@fxts/core';
+import { NodeElement, RenderBounds } from './model/node';
 
 const rootNodeId = 'ROOT_NODE_ID';
 const rootNodeName = 'ROOT_NODE_NAME';
@@ -21,16 +21,15 @@ function initWithRootNode(
 ): NodeElement {
   if (selectionNodes.length === 1) {
     const rootNode = selectionNodes[0];
-    const { x, y, width, height } = rootNode;
+    const renderBounds = getRenderBounds(rootNode);
 
     const baseNode = {
       name: rootNodeName,
       id: rootNodeId,
       renderBounds: {
-        x,
-        y,
-        width,
-        height,
+        ...renderBounds,
+        width: '100%',
+        height: '100%',
       },
     };
 
@@ -47,24 +46,24 @@ function initWithRootNode(
     };
   }
 
-  const positions = selectionNodes.map(node => ({ x: node.x, y: node.y }));
-  const baseX = min(map(({ x }) => x, positions));
-  const baseY = min(map(({ y }) => y, positions));
-
-  const sizes = selectionNodes.map(node => ({
-    width: node.width,
-    height: node.height,
+  const positions = selectionNodes.map(node => ({
+    absoluteRenderBounds: getRenderBounds(node),
   }));
-  const containerWidth = max(map(({ width }) => width, sizes));
-  const containerHeight = sum(map(({ height }) => height, sizes));
+
+  const baseX = min(
+    map(({ absoluteRenderBounds }) => absoluteRenderBounds.x, positions)
+  );
+  const baseY = min(
+    map(({ absoluteRenderBounds }) => absoluteRenderBounds.y, positions)
+  );
 
   return {
     name: rootNodeName,
     id: rootNodeId,
     type: 'FRAME',
     renderBounds: {
-      width: containerWidth,
-      height: containerHeight,
+      width: '100%',
+      height: '100%',
       x: baseX,
       y: baseY,
     },
@@ -78,13 +77,19 @@ function toNodeElement(node: SceneNode): NodeElement {
     name: node.name,
     type: node.type,
     children: 'children' in node ? node.children.map(toNodeElement) : undefined,
-    renderBounds: {
-      x: node.x,
-      y: node.y,
-      height: node.height,
-      width: node.width,
-    },
+    renderBounds: getRenderBounds(node),
   };
+}
+
+function getRenderBounds(node: SceneNode): RenderBounds {
+  return 'absoluteRenderBounds' in node && node.absoluteRenderBounds != null
+    ? node.absoluteRenderBounds
+    : {
+        x: node.x,
+        y: node.y,
+        height: node.height,
+        width: node.width,
+      };
 }
 
 export const nodeParser = {
