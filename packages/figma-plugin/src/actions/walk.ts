@@ -1,6 +1,6 @@
 import { nodeParser } from './node';
 import { transformer } from './transformer';
-
+import { html_beautify } from 'js-beautify';
 import { pipe } from '@fxts/core';
 import { CodedError, ERRORS, SkeletonOption } from '../model';
 
@@ -22,7 +22,13 @@ export default function walk(
     nodeParser.init,
     nodeElement => transformer.toMetaTree(nodeElement, nodeElement),
     targetNode => transformer.skeletonJSXString(targetNode, options),
-    parsedSkeletonComponentString => combine(parsedSkeletonComponentString),
+    parsedSkeletonComponentString =>
+      combine(
+        html_beautify(parsedSkeletonComponentString, {
+          indent_size: 2,
+          indent_with_tabs: false,
+        })
+      ),
     transformer.beautify
   );
 }

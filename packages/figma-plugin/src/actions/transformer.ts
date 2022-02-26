@@ -1,4 +1,4 @@
-import { html_beautify } from 'js-beautify';
+import { js_beautify } from 'js-beautify';
 import { SkeletonOption } from '../model';
 import { NodeElement, NodeMetaData } from './model/node';
 import { nodeConstants } from './node';
@@ -62,7 +62,7 @@ function skeletonJSXString(
   const variant =
     isSquareLike && options.squareAs === 'circle' ? 'circle' : 'text';
 
-  const positionStyleString = `position: '${position}', top: ${top}, left: ${left}`;
+  const positionStyleString = `top: ${top}, left: ${left}`;
   const sizeStyleString = `width: ${
     isNumericWidth ? width : `'${width}'`
   }, height: ${isNumericHeight ? height : `'${height}'`}`;
@@ -75,7 +75,7 @@ function skeletonJSXString(
   const elementProps =
     elementType === 'StyledSkeleton'
       ? `style={{ ${positionStyleString}, ${sizeStyleString} }}${variantPropsString}`
-      : `style={{ ${positionStyleString} }} `;
+      : `style={{ position: '${position}', ${positionStyleString} }} `;
 
   return `<${elementType} ${DATA_ATTR_NAME}="${name}" ${elementProps}>${(
     children ?? []
@@ -85,7 +85,14 @@ function skeletonJSXString(
 }
 
 function beautify(rawHtml: string): string {
-  return html_beautify(rawHtml, { indent_size: 2, indent_with_tabs: false });
+  return js_beautify(rawHtml, {
+    indent_size: 2,
+    indent_with_tabs: false,
+    max_preserve_newlines: 1,
+    wrap_line_length: 110,
+    brace_style: 'preserve-inline',
+    e4x: true,
+  });
 }
 
 function defaultPropsString(options: SkeletonOption | undefined = {}) {
@@ -100,6 +107,7 @@ function styledSkeletonComponentString(propsString: string) {
 
     function ${STYLED_SKELETON_COMP_NAME}({
       ${propsString},
+      style,
       ...props,
     }: SkeletonProps) {
       return (
@@ -107,6 +115,10 @@ function styledSkeletonComponentString(propsString: string) {
           animation={animation}
           startColor={startColor}
           endColor={endColor}
+          style={{
+            position: 'absolute',
+            ...style,
+          }}
           {...props}
         />
       )
@@ -121,7 +133,12 @@ function combineComponentString(options: SkeletonOption | undefined) {
   return function (parsedSkeletonComponentString: string) {
     return `
       ${baseComponentString}
-      ${parsedSkeletonComponentString}
+
+      function MySkeleton() {
+        return (
+          ${parsedSkeletonComponentString}
+        )
+      }
     `;
   };
 }
