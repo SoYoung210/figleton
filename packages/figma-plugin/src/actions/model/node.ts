@@ -14,7 +14,6 @@ export interface NodeElement {
 
 export interface NodeMetaData {
   name: string;
-  position: 'relative' | 'absolute';
   children: NodeMetaData[] | undefined;
   height: number | string;
   width: number | string;

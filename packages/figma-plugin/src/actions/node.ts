@@ -41,7 +41,9 @@ function initWithRootNode(
       type: 'FRAME',
       children:
         'children' in rootNode
-          ? rootNode.children.map(toNodeElement)
+          ? rootNode.children
+              .filter(({ visible }) => visible)
+              .map(toNodeElement)
           : undefined,
     };
   }
@@ -67,7 +69,9 @@ function initWithRootNode(
       x: baseX,
       y: baseY,
     },
-    children: selectionNodes.map(toNodeElement),
+    children: selectionNodes
+      .filter(({ visible }) => visible)
+      .map(toNodeElement),
   };
 }
 
