@@ -6,10 +6,7 @@ import { transformer } from './transformer';
 const rawBaseMockNodes = {
   name: 'testNodeName',
   id: '01:123',
-  x: 0,
-  y: 0,
-  width: 10,
-  height: 10,
+  absoluteRenderBounds: { x: 0, y: 0, width: 10, height: 10 },
   visible: true,
   // just sample type
   type: 'FRAME',
@@ -36,10 +33,12 @@ describe('[StringFormatter] toMetaTree', () => {
         ...baseMockNodes,
         children: arrayOf(1).map((_, index) => ({
           ...baseMockNodes,
-          x: generateMockBoundsValue('X', index),
-          y: generateMockBoundsValue('Y', index),
-          width: generateMockBoundsValue('WIDTH', index),
-          height: generateMockBoundsValue('HEIGHT', index),
+          absoluteRenderBounds: {
+            x: generateMockBoundsValue('X', index),
+            y: generateMockBoundsValue('Y', index),
+            width: generateMockBoundsValue('WIDTH', index),
+            height: generateMockBoundsValue('HEIGHT', index),
+          },
           name: generateMockLabel(baseMockNodes.name, index),
           id: generateMockLabel(baseMockNodes.id, index),
         })),
@@ -63,32 +62,43 @@ describe('[StringFormatter] toMetaTree', () => {
 
   test('when 2 depth children', () => {
     const childNode = { ...rawBaseMockNodes, name: 'childrenNode' };
+    const rootX = 100;
+    const rootY = 40;
 
     const baseMockNodes = {
       ...rawBaseMockNodes,
+      absoluteRenderBounds: {
+        ...rawBaseMockNodes.absoluteRenderBounds,
+        x: rootX,
+        y: rootY,
+      },
       children: [childNode],
     };
 
     const mockNodes = [
       {
         ...baseMockNodes,
-        children: arrayOf(3).map((_, index) => ({
+        children: arrayOf(3).map((_, rootIndex) => ({
           ...baseMockNodes,
-          children: arrayOf(1).map((_, index) => ({
+          children: arrayOf(1).map((_, childIndex) => ({
             ...baseMockNodes,
-            x: generateMockBoundsValue('X', index),
-            y: generateMockBoundsValue('Y', index),
-            width: generateMockBoundsValue('WIDTH', index),
-            height: generateMockBoundsValue('HEIGHT', index),
-            name: generateMockLabel(baseMockNodes.name, index),
-            id: generateMockLabel(baseMockNodes.id, index),
+            absoluteRenderBounds: {
+              x: generateMockBoundsValue('X', childIndex),
+              y: generateMockBoundsValue('Y', childIndex),
+              width: generateMockBoundsValue('WIDTH', childIndex),
+              height: generateMockBoundsValue('HEIGHT', childIndex),
+            },
+            name: generateMockLabel(baseMockNodes.name, childIndex),
+            id: generateMockLabel(baseMockNodes.id, childIndex),
           })),
-          x: generateMockBoundsValue('X', index),
-          y: generateMockBoundsValue('Y', index),
-          width: generateMockBoundsValue('WIDTH', index),
-          height: generateMockBoundsValue('HEIGHT', index),
-          name: generateMockLabel(baseMockNodes.name, index),
-          id: generateMockLabel(baseMockNodes.id, index),
+          absoluteRenderBounds: {
+            x: generateMockBoundsValue('X', rootIndex),
+            y: generateMockBoundsValue('Y', rootIndex),
+            width: generateMockBoundsValue('WIDTH', rootIndex),
+            height: generateMockBoundsValue('HEIGHT', rootIndex),
+          },
+          name: generateMockLabel(baseMockNodes.name, rootIndex),
+          id: generateMockLabel(baseMockNodes.id, rootIndex),
         })),
       },
     ];
@@ -98,20 +108,18 @@ describe('[StringFormatter] toMetaTree', () => {
 
     result.children?.forEach((child, index) => {
       expect(Array.isArray(child.children)).toBe(true);
-      const parentLeft = generateMockBoundsValue('X', index);
-      const parentTop = generateMockBoundsValue('Y', index);
 
-      expect(child.left).toBe(parentLeft);
-      expect(child.top).toBe(parentTop);
+      expect(child.left).toBe(generateMockBoundsValue('X', index) - rootX);
+      expect(child.top).toBe(generateMockBoundsValue('Y', index) - rootY);
       expect(child.width).toBe(generateMockBoundsValue('WIDTH', index));
       expect(child.height).toBe(generateMockBoundsValue('HEIGHT', index));
 
       child.children?.forEach((innerChild, innerIndex) => {
         expect(innerChild.left).toBe(
-          generateMockBoundsValue('X', innerIndex) - parentLeft
+          generateMockBoundsValue('X', innerIndex) - rootX
         );
         expect(innerChild.top).toBe(
-          generateMockBoundsValue('Y', innerIndex) - parentTop
+          generateMockBoundsValue('Y', innerIndex) - rootY
         );
         expect(innerChild.width).toBe(
           generateMockBoundsValue('WIDTH', innerIndex)
