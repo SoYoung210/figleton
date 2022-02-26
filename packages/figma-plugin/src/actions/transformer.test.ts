@@ -10,6 +10,7 @@ const rawBaseMockNodes = {
   y: 0,
   width: 10,
   height: 10,
+  visible: true,
   // just sample type
   type: 'FRAME',
 };
@@ -176,6 +177,80 @@ describe('[StringFormatter] toMetaTree', () => {
       result.children
         ?.map(({ width }) => width)
         .every(mockWidth => mockWidth !== unsupportedMockWidth)
+    ).toBe(true);
+  });
+
+  test('has invisible node', () => {
+    const visibleWidth = 100;
+    const invisibleWidth = 50;
+
+    const mockNodes = [
+      {
+        ...rawBaseMockNodes,
+        children: [
+          /* invisible node */
+          {
+            ...rawBaseMockNodes,
+            visible: false,
+            width: invisibleWidth,
+            type: 'BOOLEAN_OPERATION',
+          },
+          {
+            ...rawBaseMockNodes,
+            visible: false,
+            width: invisibleWidth,
+            type: 'BOOLEAN_OPERATION',
+          },
+          {
+            ...rawBaseMockNodes,
+            visible: false,
+            width: invisibleWidth,
+            type: 'BOOLEAN_OPERATION',
+          },
+          {
+            ...rawBaseMockNodes,
+            visible: false,
+            width: invisibleWidth,
+            type: 'SHAPE_WITH_TEXT',
+          },
+          {
+            ...rawBaseMockNodes,
+            visible: false,
+            width: invisibleWidth,
+            type: 'SHAPE_WITH_TEXT',
+          },
+          /* visible node */
+          {
+            ...rawBaseMockNodes,
+            visible: true,
+            width: visibleWidth,
+            type: 'COMPONENT',
+          },
+          {
+            ...rawBaseMockNodes,
+            visible: true,
+            width: visibleWidth,
+            type: 'INSTANCE',
+          },
+          {
+            ...rawBaseMockNodes,
+            visible: true,
+            width: visibleWidth,
+            type: 'SHAPE_WITH_TEXT',
+          },
+        ],
+      },
+    ];
+
+    const element = nodeParser.init(mockNodes as any);
+    const result = transformer.toMetaTree(element, element);
+
+    expect(result.children?.length).toBe(3);
+
+    expect(
+      result.children
+        ?.map(({ width }) => width)
+        .every(mockWidth => mockWidth !== invisibleWidth)
     ).toBe(true);
   });
 });
