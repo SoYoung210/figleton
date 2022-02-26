@@ -8,7 +8,7 @@ importers:
       turbo: latest
     devDependencies:
       prettier: 2.5.1
-      turbo: 1.1.2
+      turbo: 1.1.4
 
   apps/docs:
     specifiers:
@@ -85,6 +85,8 @@ importers:
       '@figeleton/tsconfig': workspace:*
       '@figma/plugin-typings': ^1.41.1
       '@fxts/core': ^0.4.2
+      '@mantine/core': ^3.6.11
+      '@mantine/hooks': ^3.6.11
       '@radix-ui/react-icons': ^1.0.3
       '@types/cheerio': ^0.22.30
       '@types/js-beautify': ^1.13.3
@@ -116,6 +118,8 @@ importers:
       '@emotion/react': 11.7.1_91de5bc04873a2ecfed8879f8166219d
       '@emotion/styled': 11.6.0_5e8f57678a77e349831a88361eba8fdc
       '@fxts/core': 0.4.2
+      '@mantine/core': 3.6.11_b72d0d04a594d89c65fde4a2a2f3b2fa
+      '@mantine/hooks': 3.6.11_react@17.0.2
       '@radix-ui/react-icons': 1.0.3_react@17.0.2
       add: 2.0.6
       cheerio: 1.0.0-rc.10
@@ -2730,6 +2734,54 @@ packages:
       chalk: 4.1.2
     dev: true
 
+  /@mantine/core/3.6.11_b72d0d04a594d89c65fde4a2a2f3b2fa:
+    resolution: {integrity: sha512-WeL10zfO/u6ZBTh6LOxP2WBqdvNpG0BU0tdUfZFUIRW6/rz+vWhZylFwZfxtaoDgas6JaXWm+Hdxqnop9Zix2w==}
+    peerDependencies:
+      '@mantine/hooks': 3.6.11
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@mantine/hooks': 3.6.11_react@17.0.2
+      '@mantine/styles': 3.6.11_5c2a74fb55789be4e7552f73e529cd65
+      '@popperjs/core': 2.11.2
+      '@radix-ui/react-scroll-area': 0.1.4_react@17.0.2
+      clsx: 1.1.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-popper: 2.2.5_4d48938cec404f33c7375aa6b453941c
+      react-textarea-autosize: 8.3.3_b08e3c15324cbe90a6ff8fcd416c932c
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@types/react'
+    dev: false
+
+  /@mantine/hooks/3.6.11_react@17.0.2:
+    resolution: {integrity: sha512-HojHT9FnP+mEA1idXYNVxTy7Fdzlk8aLjs/v9Mik9os3TjPiLSV9C6pSck06LepEIC6PEICQi/WSTP1rY8ZP+g==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 17.0.2
+    dev: false
+
+  /@mantine/styles/3.6.11_5c2a74fb55789be4e7552f73e529cd65:
+    resolution: {integrity: sha512-KgDWV1TfaTXbhOKjoE31jDtTHn55VrmurrnXiPFndGlCPwx9RHQF4MNaUEHQof+qq4qTRR/wOLGrC43s21FbDA==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@emotion/cache': 11.7.1
+      '@emotion/react': 11.7.1_91de5bc04873a2ecfed8879f8166219d
+      '@emotion/serialize': 1.0.2
+      '@emotion/utils': 1.0.0
+      clsx: 1.1.1
+      csstype: 3.0.10
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@types/react'
+    dev: false
+
   /@mdx-js/loader/1.6.22_react@17.0.2:
     resolution: {integrity: sha512-9CjGwy595NaxAYp0hF9B/A0lH6C8Rms97e2JS9d3jVUtILn6pT5i5IV965ra3lIWc7Rs1GG1tBdVF7dCowYe6Q==}
     dependencies:
@@ -2976,11 +3028,117 @@ packages:
   /@popperjs/core/2.11.2:
     resolution: {integrity: sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==}
 
+  /@radix-ui/number/0.1.0:
+    resolution: {integrity: sha512-rpf6QiOWLHAkM4FEMYu9i+5Jr8cKT893+R4mPpcdsy4LD7omr9JfdOqj/h/xPA5+EcVrpMMlU6rrRYpUB5UI8g==}
+    dependencies:
+      '@babel/runtime': 7.16.7
+    dev: false
+
+  /@radix-ui/primitive/0.1.0:
+    resolution: {integrity: sha512-tqxZKybwN5Fa3VzZry4G6mXAAb9aAqKmPtnVbZpL0vsBwvOHTBwsjHVPXylocYLwEtBY9SCe665bYnNB515uoA==}
+    dependencies:
+      '@babel/runtime': 7.16.7
+    dev: false
+
+  /@radix-ui/react-compose-refs/0.1.0_react@17.0.2:
+    resolution: {integrity: sha512-eyclbh+b77k+69Dk72q3694OHrn9B3QsoIRx7ywX341U9RK1ThgQjMFZoPtmZNQTksXHLNEiefR8hGVeFyInGg==}
+    peerDependencies:
+      react: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.16.7
+      react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-context/0.1.1_react@17.0.2:
+    resolution: {integrity: sha512-PkyVX1JsLBioeu0jB9WvRpDBBLtLZohVDT3BB5CTSJqActma8S8030P57mWZb4baZifMvN7KKWPAA40UmWKkQg==}
+    peerDependencies:
+      react: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.16.7
+      react: 17.0.2
+    dev: false
+
   /@radix-ui/react-icons/1.0.3_react@17.0.2:
     resolution: {integrity: sha512-YbPAUZwTsvF/2H7IU35txaLUB+JNSV8GIhnswlqiFODP/P32t5op5keYUvQWsSj9TA0VLF367J24buUjIprn0w==}
     peerDependencies:
       react: ^16.x || ^17.x
     dependencies:
+      react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-presence/0.1.2_react@17.0.2:
+    resolution: {integrity: sha512-3BRlFZraooIUfRlyN+b/Xs5hq1lanOOo/+3h6Pwu2GMFjkGKKa4Rd51fcqGqnVlbr3jYg+WLuGyAV4KlgqwrQw==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@babel/runtime': 7.16.7
+      '@radix-ui/react-compose-refs': 0.1.0_react@17.0.2
+      '@radix-ui/react-use-layout-effect': 0.1.0_react@17.0.2
+      react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-primitive/0.1.4_react@17.0.2:
+    resolution: {integrity: sha512-6gSl2IidySupIMJFjYnDIkIWRyQdbu/AHK7rbICPani+LW4b0XdxBXc46og/iZvuwW8pjCS8I2SadIerv84xYA==}
+    peerDependencies:
+      react: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.16.7
+      '@radix-ui/react-slot': 0.1.2_react@17.0.2
+      react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-scroll-area/0.1.4_react@17.0.2:
+    resolution: {integrity: sha512-QHxRsjy+hsHwQYJ9cCNgSJ5+6ioZu1KhwD1UOXoHNciuFGMX08v+uJPKXIz+ySv03Rx6cOz6f/Fk5aPHRMFi/A==}
+    peerDependencies:
+      react: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.16.7
+      '@radix-ui/number': 0.1.0
+      '@radix-ui/primitive': 0.1.0
+      '@radix-ui/react-compose-refs': 0.1.0_react@17.0.2
+      '@radix-ui/react-context': 0.1.1_react@17.0.2
+      '@radix-ui/react-presence': 0.1.2_react@17.0.2
+      '@radix-ui/react-primitive': 0.1.4_react@17.0.2
+      '@radix-ui/react-use-callback-ref': 0.1.0_react@17.0.2
+      '@radix-ui/react-use-direction': 0.1.0_react@17.0.2
+      '@radix-ui/react-use-layout-effect': 0.1.0_react@17.0.2
+      react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-slot/0.1.2_react@17.0.2:
+    resolution: {integrity: sha512-ADkqfL+agEzEguU3yS26jfB50hRrwf7U4VTwAOZEmi/g+ITcBWe12yM46ueS/UCIMI9Py+gFUaAdxgxafFvY2Q==}
+    peerDependencies:
+      react: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.16.7
+      '@radix-ui/react-compose-refs': 0.1.0_react@17.0.2
+      react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-use-callback-ref/0.1.0_react@17.0.2:
+    resolution: {integrity: sha512-Va041McOFFl+aV+sejvl0BS2aeHx86ND9X/rVFmEFQKTXCp6xgUK0NGUAGcgBlIjnJSbMYPGEk1xKSSlVcN2Aw==}
+    peerDependencies:
+      react: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.16.7
+      react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-use-direction/0.1.0_react@17.0.2:
+    resolution: {integrity: sha512-NajpY/An9TCPSfOVkgWIdXJV+VuWl67PxB6kOKYmtNAFHvObzIoh8o0n9sAuwSAyFCZVq211FEf9gvVDRhOyiA==}
+    peerDependencies:
+      react: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.16.7
+      react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-use-layout-effect/0.1.0_react@17.0.2:
+    resolution: {integrity: sha512-+wdeS51Y+E1q1Wmd+1xSSbesZkpVj4jsg0BojCbopWvgq5iBvixw5vgemscdh58ep98BwUbsFYnrywFhV9yrVg==}
+    peerDependencies:
+      react: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.16.7
       react: 17.0.2
     dev: false
 
@@ -6458,7 +6616,6 @@ packages:
   /clsx/1.1.1:
     resolution: {integrity: sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==}
     engines: {node: '>=6'}
-    dev: true
 
   /collapse-white-space/1.0.6:
     resolution: {integrity: sha512-jEovNnrhMuqyCcjfEJA56v0Xq8SkIoPKDyaHahwo3POf4qcSXqMYuwNcOTzp74vTsR9Tn08z4MxWqAhcekogkQ==}
@@ -11954,7 +12111,6 @@ packages:
       react: 17.0.2
       react-fast-compare: 3.2.0
       warning: 4.0.3
-    dev: true
 
   /react-refresh/0.11.0:
     resolution: {integrity: sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==}
@@ -12072,7 +12228,6 @@ packages:
       use-latest: 1.2.0_b08e3c15324cbe90a6ff8fcd416c932c
     transitivePeerDependencies:
       - '@types/react'
-    dev: true
 
   /react-use-measure/2.1.1_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
@@ -13608,119 +13763,119 @@ packages:
     resolution: {integrity: sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=}
     dev: true
 
-  /turbo-darwin-64/1.1.2:
-    resolution: {integrity: sha512-rua17HnVvAqAU54gVfiQoH7cfopOqANv+yI6NtxLMD8aFfX2cJ9m8SSvH2v2vCaToNDW6OnTkdqDKQpqIHzbCw==}
+  /turbo-darwin-64/1.1.4:
+    resolution: {integrity: sha512-X10dAxqCMXnDjyN4K5mSvhol42kfAcJhI9NS7neIMD25kLcULYFe96Qk1XWEBxgCEBAmkf7UrysYSP+dQMPlGw==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-darwin-arm64/1.1.2:
-    resolution: {integrity: sha512-otqSQNYDyKg0KqB3NM0BI4oiRPKdJkUE/XBn8dcUS+zeRLrL00XtaM0eSwynZs1tb6zU/Y+SPMSBRygD1TCOnw==}
+  /turbo-darwin-arm64/1.1.4:
+    resolution: {integrity: sha512-sl5TiMLNqWKvKpQsh6lg2sUXRTVt5lfRqnStVw/E/5BTm/KIBZTNWHmx0hO8/LwDmXenVtpiW7h7BbWewfPqTQ==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-freebsd-64/1.1.2:
-    resolution: {integrity: sha512-2nxwVDTAM0DtIQ2i3UOfEsQLF7vp+XZ/b9SKtiHxz710fXvdyuGivYI25axDdcBn8kQ45rnbUnarF1aW8CMGgg==}
+  /turbo-freebsd-64/1.1.4:
+    resolution: {integrity: sha512-EKrAzIyVgmeQf0NpAcxYrhFEiBTrjO163dpiiHxwRiRxTYtcWgY+RJiWVQyIeG0yPx1Z+aLXvmPqf6HvC0T3hg==}
     cpu: [x64]
     os: [freebsd]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-freebsd-arm64/1.1.2:
-    resolution: {integrity: sha512-ro1Ah96yzgzyT0BJe1mceAqxPxi0pUwzAvN3IKVpMqi4hYkT3aRbzDCaSxzyC6let2Al/NUsgHnbAv38OF2Xkw==}
+  /turbo-freebsd-arm64/1.1.4:
+    resolution: {integrity: sha512-Vz3NSbc909eZU1DaS54vL1Z022OCG9wnrK7cB2e2ynMMdeYrIxAWnQeGVrYewQHYhwcCs7/6TgZCfhZKnG2nxQ==}
     cpu: [arm64]
     os: [freebsd]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-32/1.1.2:
-    resolution: {integrity: sha512-HKBsETxQMVaf/DJwMg7pypPbGA6KEu0gEf9C8o2aPJvwMPBYgNsNaU08Xizuh5xzEQTzpbIWfQyqdNgMV4RG3Q==}
+  /turbo-linux-32/1.1.4:
+    resolution: {integrity: sha512-sACZPPv0wDpoTu1qRuOP0CYZS6HY8naySg9fTBP4kcRF5dLC4xPQZA46g8AUMkRFoBsyqA08t2whwV8gvYFoUg==}
     cpu: [ia32]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-64/1.1.2:
-    resolution: {integrity: sha512-IklKsOklcRHIWkTzKg95BQ6jgJ53kLvRMrp8yqzlvZprkWdiyhAgUxrUTTHOOTce2XA3+jdN2+MwixG44uY2vg==}
+  /turbo-linux-64/1.1.4:
+    resolution: {integrity: sha512-VTDSlTiF01P50JcyemWhGC1lx736gQMi3q6eLkGrt0t9HTtkl9FpQEypJDyRKZXTL+60ldriIwhivHmWm9cwQA==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-arm/1.1.2:
-    resolution: {integrity: sha512-CNbaTvRozq7H/5jpy9OZlzJ6BkeEXF+nF2n9dHiUrbAXd3nq84Qt9odcQJmGnexP19YS9w6l3tIHncX4BgwtqA==}
+  /turbo-linux-arm/1.1.4:
+    resolution: {integrity: sha512-XDVX6rzRr7AgqQvA4VwPVAHWxxWFI8SgEsNtbXD4sKiEFo9fTWqMvtRJqhx86Z/XHtCJF8VuU3yPS5puItdc9A==}
     cpu: [arm]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-arm64/1.1.2:
-    resolution: {integrity: sha512-3kS6sk2lOtuBBqkcL+yeGqD1yew4UZ1o7XUcbDD8UPwhF2kAfK7Qs0vTJw4lnO1scjhihkoTrmXM7yozvjf4/w==}
+  /turbo-linux-arm64/1.1.4:
+    resolution: {integrity: sha512-rMSjwzWg9W8J/JwIBtp0+e8O8MP6Z5U4htMgk88zalhSYhAxGIhOCIQT8KsaKoc71Ee/wG1soeprZvqBf/B84Q==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-mips64le/1.1.2:
-    resolution: {integrity: sha512-CDoXVIlW43C6KLgYxe13KkG8h6DswXHxbTVHiZdOwRQ56j46lU+JOVpLoh6wpQGcHvj58VEiypZBRTGVFMeogw==}
+  /turbo-linux-mips64le/1.1.4:
+    resolution: {integrity: sha512-2VK+R9eUQU1xPJ+tGOsALQ6hsc8W7h9ohIumBYYs++SDazwaMQB7lsusXDasf6smEzD02KyUJuj0OvwzJjqq7Q==}
     cpu: [mips64el]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-ppc64le/1.1.2:
-    resolution: {integrity: sha512-xPVMHoiOJE/qI63jSOXwYIUFQXLdstxDV6fLnRxvq0QnJNxgTKq+mLUeE8M4LDVh1bdqHLcfk/HmyQ6+X1XVkQ==}
+  /turbo-linux-ppc64le/1.1.4:
+    resolution: {integrity: sha512-Ja9eiRxjioO1PV+TxRmTzsNvGGUQDdJnTLsG1YkKldkplecQdUfJRFdWksEZ7dZ+Hv44g4zvskJgUuCYlGckyA==}
     cpu: [ppc64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-32/1.1.2:
-    resolution: {integrity: sha512-Gj1yvPE0aMDSOxGVSBaecLnwsVDT1xX8U0dtLrg52TYY2jlaci0atjHKr9nTFuX7z8uwAf6PopwdriGoCeT3ng==}
+  /turbo-windows-32/1.1.4:
+    resolution: {integrity: sha512-c8l91hmpsFcmZQJBsDlhLAxfaBl83DXSmDOQoE7YT60vOZZSkfPlNSsHm9tq+4WN54unFfqpNbO7r6z+6R7rfw==}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-64/1.1.2:
-    resolution: {integrity: sha512-0Ncx/iKhnKrdAU8hJ+8NUcF9jtFr8KoW5mMWfiFzy+mgUbVKbpzWT2eoGR6zJExedQsRvYOejbEX5iihbnj5bA==}
+  /turbo-windows-64/1.1.4:
+    resolution: {integrity: sha512-DMitFYd5eIhZ2CyPUeds3JXDB/onXBdA2DEj9cxVXY7q2ZBE4rpoV0Ft/mh15LsQZhwap9ipgddbCn16OGFvzw==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo/1.1.2:
-    resolution: {integrity: sha512-3ViHKyAkaBKNKwHASTa1zkVT3tVVhQNLrpxBS7LoN+794ouQUYmy6lf0rTqzG3iTZHtIDwC+piZSdTl4XjEVMg==}
+  /turbo/1.1.4:
+    resolution: {integrity: sha512-kz08AV61hJeY9xuL4yQ27G2qks5LMAdvbd36GpcKvrh4Za+m0t+r2ijMjDvATp8uj4i6IlSV0t/G0/OMwkm6HA==}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      turbo-darwin-64: 1.1.2
-      turbo-darwin-arm64: 1.1.2
-      turbo-freebsd-64: 1.1.2
-      turbo-freebsd-arm64: 1.1.2
-      turbo-linux-32: 1.1.2
-      turbo-linux-64: 1.1.2
-      turbo-linux-arm: 1.1.2
-      turbo-linux-arm64: 1.1.2
-      turbo-linux-mips64le: 1.1.2
-      turbo-linux-ppc64le: 1.1.2
-      turbo-windows-32: 1.1.2
-      turbo-windows-64: 1.1.2
+      turbo-darwin-64: 1.1.4
+      turbo-darwin-arm64: 1.1.4
+      turbo-freebsd-64: 1.1.4
+      turbo-freebsd-arm64: 1.1.4
+      turbo-linux-32: 1.1.4
+      turbo-linux-64: 1.1.4
+      turbo-linux-arm: 1.1.4
+      turbo-linux-arm64: 1.1.4
+      turbo-linux-mips64le: 1.1.4
+      turbo-linux-ppc64le: 1.1.4
+      turbo-windows-32: 1.1.4
+      turbo-windows-64: 1.1.4
     dev: true
 
   /type-check/0.3.2:
@@ -13992,7 +14147,6 @@ packages:
       react: ^16.8.0 || ^17.0.0
     dependencies:
       react: 17.0.2
-    dev: true
 
   /use-isomorphic-layout-effect/1.1.1_b08e3c15324cbe90a6ff8fcd416c932c:
     resolution: {integrity: sha512-L7Evj8FGcwo/wpbv/qvSfrkHFtOpCzvM5yl2KVyDJoylVuSvzphiiasmjgQPttIGBAy2WKiBNR98q8w7PiNgKQ==}
@@ -14005,7 +14159,6 @@ packages:
     dependencies:
       '@types/react': 17.0.38
       react: 17.0.2
-    dev: true
 
   /use-latest/1.2.0_b08e3c15324cbe90a6ff8fcd416c932c:
     resolution: {integrity: sha512-d2TEuG6nSLKQLAfW3By8mKr8HurOlTkul0sOpxbClIv4SQ4iOd7BYr7VIzdbktUCnv7dua/60xzd8igMU6jmyw==}
@@ -14019,7 +14172,6 @@ packages:
       '@types/react': 17.0.38
       react: 17.0.2
       use-isomorphic-layout-effect: 1.1.1_b08e3c15324cbe90a6ff8fcd416c932c
-    dev: true
 
   /use-sidecar/1.0.5_react@17.0.2:
     resolution: {integrity: sha512-k9jnrjYNwN6xYLj1iaGhonDghfvmeTmYjAiGvOr7clwKfPjMXJf4/HOr7oT5tJwYafgp2tG2l3eZEOfoELiMcA==}

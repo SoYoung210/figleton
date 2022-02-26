@@ -22,6 +22,8 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@fxts/core": "^0.4.2",
+    "@mantine/core": "^3.6.11",
+    "@mantine/hooks": "^3.6.11",
     "@radix-ui/react-icons": "^1.0.3",
     "add": "^2.0.6",
     "cheerio": "^1.0.0-rc.10",
