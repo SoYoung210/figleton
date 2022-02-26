@@ -80,46 +80,42 @@ export default function ConfigSection() {
   return (
     <form onSubmit={onCreate} style={{ width: '100%' }}>
       <Group direction="column" spacing={24} align="start">
-        <fieldset>
-          <RadioGroup
-            label="Animation"
-            defaultValue={defaultValues.animation}
-            name="animation"
-          >
-            <Radio value="wave">wave</Radio>
-            <Radio value="pulse">pulse</Radio>
-            <Radio value="unset">unset</Radio>
-          </RadioGroup>
-        </fieldset>
-        <fieldset>
-          <RadioGroup
-            name="squareAs"
-            label="Square as"
-            defaultValue={defaultValues.squareAs}
-          >
-            <Radio value="text">square</Radio>
-            <Radio value="circle">circle</Radio>
-          </RadioGroup>
-        </fieldset>
-        <fieldset>
-          <legend style={{ fontSize: '14px' }}>Skeleton Animation Color</legend>
-          <SimpleGrid cols={2} spacing={4}>
-            <ColorInput
-              label="StartColor"
-              name="startColor"
-              format="rgba"
-              placeholder="Pick base Skeleton Color"
-              defaultValue={defaultValues.startColor}
-            />
-            <ColorInput
-              label="EndColor"
-              name="endColor"
-              format="rgba"
-              placeholder="Pick highlight Skeleton Color"
-              defaultValue={defaultValues.endColor}
-            />
-          </SimpleGrid>
-        </fieldset>
+        <RadioGroup
+          label="Animation"
+          defaultValue={defaultValues.animation}
+          name="animation"
+        >
+          <Radio value="wave">wave</Radio>
+          <Radio value="pulse">pulse</Radio>
+          <Radio value="unset">unset</Radio>
+        </RadioGroup>
+        <RadioGroup
+          name="squareAs"
+          label="Square as"
+          defaultValue={defaultValues.squareAs}
+        >
+          <Radio value="text">square</Radio>
+          <Radio value="circle">circle</Radio>
+        </RadioGroup>
+
+        <SimpleGrid cols={2} spacing={4}>
+          <ColorInput
+            label="StartColor"
+            description="Skeleton Animation Start Color"
+            name="startColor"
+            format="rgba"
+            placeholder="Pick base Skeleton Color"
+            defaultValue={defaultValues.startColor}
+          />
+          <ColorInput
+            label="EndColor"
+            description="Skeleton Animation End Color"
+            name="endColor"
+            format="rgba"
+            placeholder="Pick highlight Skeleton Color"
+            defaultValue={defaultValues.endColor}
+          />
+        </SimpleGrid>
         <Group spacing={4}>
           <Button type="submit">Create</Button>
           <Button
