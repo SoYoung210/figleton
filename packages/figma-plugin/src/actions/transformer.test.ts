@@ -46,10 +46,10 @@ describe('[StringFormatter] toMetaTree', () => {
       },
     ];
     const element = nodeParser.init(mockNodes as any);
-    const result = transformer.toMetaTree(element, element);
+    const toMetaTree = transformer.toMetaTree(element);
+    const result = toMetaTree(element);
 
     // rootNode property
-    expect(result.position).toBe('relative');
     expect(result.top).toBe(0);
     expect(result.left).toBe(0);
     // children
@@ -93,7 +93,8 @@ describe('[StringFormatter] toMetaTree', () => {
       },
     ];
     const element = nodeParser.init(mockNodes as any);
-    const result = transformer.toMetaTree(element, element);
+    const toMetaTree = transformer.toMetaTree(element);
+    const result = toMetaTree(element);
 
     result.children?.forEach((child, index) => {
       expect(Array.isArray(child.children)).toBe(true);
@@ -169,7 +170,8 @@ describe('[StringFormatter] toMetaTree', () => {
     ];
 
     const element = nodeParser.init(mockNodes as any);
-    const result = transformer.toMetaTree(element, element);
+    const toMetaTree = transformer.toMetaTree(element);
+    const result = toMetaTree(element);
 
     expect(result.children?.length).toBe(3);
 
@@ -243,7 +245,8 @@ describe('[StringFormatter] toMetaTree', () => {
     ];
 
     const element = nodeParser.init(mockNodes as any);
-    const result = transformer.toMetaTree(element, element);
+    const toMetaTree = transformer.toMetaTree(element);
+    const result = toMetaTree(element);
 
     expect(result.children?.length).toBe(3);
 

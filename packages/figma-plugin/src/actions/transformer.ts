@@ -6,28 +6,25 @@ import { nodeConstants } from './node';
 /**
  * Comparison of parent parent's absoluteX and absoluteY values and children's x and y values
  */
-function toMetaTree(
-  targetNode: NodeElement,
-  rootNode: NodeElement
-): NodeMetaData {
-  const isRootNode = targetNode.id === rootNode.id;
-  const nextValidChildren = targetNode.children?.filter(
-    ({ type }) => !nodeConstants.unsupportedTypes.includes(type)
-  );
+function toMetaTree(rootNode: NodeElement) {
+  return function toMetaTreeInner(targetNode: NodeElement): NodeMetaData {
+    const isRootNode = targetNode.id === rootNode.id;
+    const nextValidChildren = targetNode.children?.filter(
+      ({ type }) => !nodeConstants.unsupportedTypes.includes(type)
+    );
 
-  const { x, y, width, height } = targetNode.renderBounds;
-  const top = isRootNode ? 0 : y - rootNode.renderBounds.y;
-  const left = isRootNode ? 0 : x - rootNode.renderBounds.x;
+    const { x, y, width, height } = targetNode.renderBounds;
+    const top = isRootNode ? 0 : y - rootNode.renderBounds.y;
+    const left = isRootNode ? 0 : x - rootNode.renderBounds.x;
 
-  return {
-    name: targetNode.name,
-    top,
-    left,
-    width,
-    height,
-    children: nextValidChildren?.map(nextNode =>
-      toMetaTree(nextNode, rootNode)
-    ),
+    return {
+      name: targetNode.name,
+      top,
+      left,
+      width,
+      height,
+      children: nextValidChildren?.map(nextNode => toMetaTreeInner(nextNode)),
+    };
   };
 }
 

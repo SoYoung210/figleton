@@ -17,10 +17,12 @@ export default function walk(
 
   const combine = transformer.combineComponentString(options);
 
+  const rootNode = nodeParser.init(selectionNodes);
+  const toMetaTree = transformer.toMetaTree(rootNode);
+
   return pipe(
-    selectionNodes,
-    nodeParser.init,
-    nodeElement => transformer.toMetaTree(nodeElement, nodeElement),
+    rootNode,
+    toMetaTree,
     targetNode => transformer.skeletonJSXString(targetNode, options),
     parsedSkeletonComponentString =>
       combine(
