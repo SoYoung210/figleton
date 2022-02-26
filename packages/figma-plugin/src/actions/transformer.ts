@@ -39,15 +39,27 @@ function skeletonJSXString(
   targetNode: NodeMetaData,
   options: SkeletonOption | undefined = {}
 ): string {
-  const { position, top, left, width, height, children, name } = targetNode;
+  const {
+    position,
+    top,
+    left,
+    width: rawWidth,
+    height: rawHeight,
+    children,
+    name,
+  } = targetNode;
   const shouldDrawSkeleton = children == null || children.length === 0;
 
-  const isNumericWidth = typeof width === 'number';
-  const isNumericHeight = typeof height === 'number';
+  const isNumericWidth = typeof rawWidth === 'number';
+  const isNumericHeight = typeof rawHeight === 'number';
   const isNumericSize = isNumericWidth && isNumericHeight;
-  const isSquareLike = isNumericSize && Math.abs(1 - height / width) < 0.1;
+  const isSquareLike =
+    isNumericSize && Math.abs(1 - rawWidth / rawHeight) < 0.1;
 
-  const styleString = `position: '${position}', top: ${top}, left: ${left}, width: ${
+  const width = isNumericWidth ? rawWidth : `'${rawWidth}'`;
+  const height = isNumericHeight ? rawHeight : `'${rawHeight}'`;
+  const positionStyleString = `position: '${position}', top: ${top}, left: ${left}`;
+  const sizeStyleString = `width: ${
     isNumericWidth ? width : `'${width}'`
   }, height: ${isNumericHeight ? height : `'${height}'`}`;
 
@@ -56,8 +68,12 @@ function skeletonJSXString(
     ...options,
     isSquareLike,
   });
+  const elementProps =
+    elementType === 'Skeleton'
+      ? `style={{ ${positionStyleString}, ${sizeStyleString} }} ${customProps}`
+      : `style={{ ${positionStyleString} }} `;
 
-  return `<${elementType} style={{ ${styleString} }} ${DATA_ATTR_NAME}="${name}" ${customProps}>${(
+  return `<${elementType} ${DATA_ATTR_NAME}="${name}" ${elementProps}>${(
     children ?? []
   )
     ?.map(childNode => skeletonJSXString(childNode, options))
