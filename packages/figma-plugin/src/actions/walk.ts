@@ -15,11 +15,14 @@ export default function walk(
     );
   }
 
+  const combine = transformer.combineComponentString(options);
+
   return pipe(
     selectionNodes,
     nodeParser.init,
     nodeElement => transformer.toMetaTree(nodeElement, nodeElement),
     targetNode => transformer.skeletonJSXString(targetNode, options),
+    parsedSkeletonComponentString => combine(parsedSkeletonComponentString),
     transformer.beautify
   );
 }

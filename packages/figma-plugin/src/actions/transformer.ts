@@ -34,7 +34,8 @@ function toMetaTree(
 }
 
 const DATA_ATTR_NAME = 'data-skeleton-name';
-type ElementType = 'Skeleton' | 'div';
+const STYLED_SKELETON_COMP_NAME = 'StyledSkeleton';
+type ElementType = typeof STYLED_SKELETON_COMP_NAME | 'div';
 function skeletonJSXString(
   targetNode: NodeMetaData,
   options: SkeletonOption | undefined = {}
@@ -58,19 +59,22 @@ function skeletonJSXString(
 
   const width = isNumericWidth ? rawWidth : `'${rawWidth}'`;
   const height = isNumericHeight ? rawHeight : `'${rawHeight}'`;
+  const variant =
+    isSquareLike && options.squareAs === 'circle' ? 'circle' : 'text';
+
   const positionStyleString = `position: '${position}', top: ${top}, left: ${left}`;
   const sizeStyleString = `width: ${
     isNumericWidth ? width : `'${width}'`
   }, height: ${isNumericHeight ? height : `'${height}'`}`;
+  const variantPropsString = variant !== 'text' ? `variant="${variant}"` : '';
 
-  const elementType: ElementType = shouldDrawSkeleton ? 'Skeleton' : 'div';
-  const customProps = getPropsByElementType(elementType, {
-    ...options,
-    isSquareLike,
-  });
+  const elementType: ElementType = shouldDrawSkeleton
+    ? 'StyledSkeleton'
+    : 'div';
+
   const elementProps =
-    elementType === 'Skeleton'
-      ? `style={{ ${positionStyleString}, ${sizeStyleString} }} ${customProps}`
+    elementType === 'StyledSkeleton'
+      ? `style={{ ${positionStyleString}, ${sizeStyleString} }}${variantPropsString}`
       : `style={{ ${positionStyleString} }} `;
 
   return `<${elementType} ${DATA_ATTR_NAME}="${name}" ${elementProps}>${(
@@ -84,37 +88,47 @@ function beautify(rawHtml: string): string {
   return html_beautify(rawHtml, { indent_size: 2, indent_with_tabs: false });
 }
 
-interface GetPropsParams extends SkeletonOption {
-  isSquareLike: boolean;
+function defaultPropsString(options: SkeletonOption | undefined = {}) {
+  const { animation = 'wave', startColor, endColor } = options;
+
+  return `animation="${animation}", startColor="${startColor}", endColor="${endColor}"`;
 }
-function getPropsByElementType(
-  elementType: ElementType,
-  options: GetPropsParams | undefined = { isSquareLike: false }
-) {
-  const {
-    animation = 'wave',
-    squareAs = 'text',
-    isSquareLike,
-    startColor,
-    endColor,
-  } = options;
 
-  if (!isComponent(elementType)) {
-    return '';
-  }
+function styledSkeletonComponentString(propsString: string) {
+  return `
+    import { Skeleton, SkeletonProps } from "@figeleton/skeleton";
 
-  const variant = isSquareLike && squareAs === 'circle' ? 'circle' : 'text';
-
-  if (elementType === 'Skeleton') {
-    return `animation="${animation}" variant="${variant}" startColor="${startColor}" endColor="${endColor}"`;
-  }
+    function ${STYLED_SKELETON_COMP_NAME}({
+      ${propsString},
+      ...props,
+    }: SkeletonProps) {
+      return (
+        <Skeleton
+          animation={animation}
+          startColor={startColor}
+          endColor={endColor}
+          {...props}
+        />
+      )
+    }
+  `;
 }
-function isComponent(elementType: string) {
-  return /[A-Z]/.test(elementType);
+
+function combineComponentString(options: SkeletonOption | undefined) {
+  const propsString = defaultPropsString(options);
+  const baseComponentString = styledSkeletonComponentString(propsString);
+
+  return function (parsedSkeletonComponentString: string) {
+    return `
+      ${baseComponentString}
+      ${parsedSkeletonComponentString}
+    `;
+  };
 }
 
 export const transformer = {
   toMetaTree,
   skeletonJSXString,
+  combineComponentString,
   beautify,
 };
