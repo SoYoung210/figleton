@@ -1,67 +1,38 @@
-import { Box, Button, useClipboard, Stack, Skeleton } from '@chakra-ui/react';
-import React, { useRef, useState } from 'react';
-import { getHighlighter, setCDN } from 'shiki';
-import styled from '@emotion/styled';
-import useAsyncHandler from '../hooks/async';
+import React, { useState } from 'react';
+import { Button } from '@mantine/core';
+import { Prism } from '@mantine/prism';
 import useEventListener from '../hooks/event';
+import { useClipboard } from '../hooks/clipboard';
 
 export default function CodePreviewSection() {
-  setCDN('https://unpkg.com/shiki/');
-
-  const [highlightText, setHighlightText] = useState('');
-  const originDataRef = useRef<string>('');
-  const { onCopy, hasCopied } = useClipboard(originDataRef.current);
-
-  const highlighter = getHighlighter({ theme: 'dark-plus' });
-
-  const [handleData, { isPending }] = useAsyncHandler(
-    async (payload: string) => {
-      setHighlightText(
-        (await highlighter).codeToHtml(payload, {
-          lang: 'jsx',
-        })
-      );
-    }
-  );
+  const [codeContent, setCodeContent] = useState('');
 
   useEventListener<string>({ type: 'preview-code' }, e => {
-    originDataRef.current = e.data.pluginMessage.payload;
-    handleData(e.data.pluginMessage.payload);
+    setCodeContent(e.data.pluginMessage.payload);
   });
+  const clipboard = useClipboard();
 
   return (
-    <Box position="relative" w="100%">
-      {highlightText !== '' ? (
-        <Button
-          size="xs"
-          onClick={onCopy}
-          position="absolute"
-          top="10px"
-          right="10px"
-        >
-          {hasCopied ? 'COPIED' : 'COPY'}
-        </Button>
+    <div style={{ width: '100%', position: 'relative' }}>
+      {codeContent !== '' ? (
+        <>
+          <Prism noCopy language="tsx">
+            {codeContent}
+          </Prism>
+          <Button
+            variant="light"
+            compact
+            size="xs"
+            onClick={() => {
+              clipboard.copyText(codeContent);
+            }}
+            sx={{ position: 'absolute', right: 10, top: 10 }}
+            color={clipboard.hasCopied ? 'teal' : 'blue'}
+          >
+            {clipboard.hasCopied ? 'Copied' : 'Copy'}
+          </Button>
+        </>
       ) : null}
-      {isPending ? (
-        <Stack>
-          <Skeleton height="20px" />
-          <Skeleton height="20px" />
-          <Skeleton height="20px" />
-        </Stack>
-      ) : (
-        <Pre
-          dangerouslySetInnerHTML={{
-            __html: highlightText,
-          }}
-        />
-      )}
-    </Box>
+    </div>
   );
 }
-
-const Pre = styled.pre`
-  pre.shiki {
-    padding: 10px;
-    overflow: auto;
-  }
-`;
