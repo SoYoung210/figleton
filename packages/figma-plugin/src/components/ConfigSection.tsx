@@ -1,17 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
   Button,
-  FormControl,
-  FormLabel,
-  HStack,
-  Input,
-  Text,
+  Group,
   Radio,
   RadioGroup,
   SimpleGrid,
-  VStack,
-  Spinner,
-} from '@chakra-ui/react';
+  LoadingOverlay,
+  ColorInput,
+} from '@mantine/core';
 import React, { FormEvent, useCallback, useState } from 'react';
 import { PluginMessage, SkeletonOption } from '../model';
 import { CodeSandboxLogoIcon } from '@radix-ui/react-icons';
@@ -46,8 +42,8 @@ export default function ConfigSection() {
   const [defaultValues, setDefaultValues] = useState<OptionValue>({
     animation: 'wave',
     squareAs: 'text',
-    startColor: '#e3e3e3',
-    endColor: '#dedede',
+    startColor: 'rgba(227, 227, 227, 1)',
+    endColor: 'rgba(222, 222, 222, 1)',
   });
   const onCreate = useCallback((e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,77 +74,66 @@ export default function ConfigSection() {
   );
 
   if (loadingState == 'loading') {
-    return <Spinner />;
+    return <LoadingOverlay visible={true} />;
   }
 
   return (
     <form onSubmit={onCreate} style={{ width: '100%' }}>
-      <VStack spacing="24px" align="start">
-        <FormControl as="fieldset">
-          <FormLabel as="legend">Animation</FormLabel>
-          <RadioGroup defaultValue={defaultValues.animation} name="animation">
-            <HStack spacing={4}>
-              <Radio value="wave">wave</Radio>
-              <Radio value="pulse">pulse</Radio>
-              <Radio value="unset">unset</Radio>
-            </HStack>
+      <Group direction="column" spacing={24} align="start">
+        <fieldset>
+          <RadioGroup
+            label="Animation"
+            defaultValue={defaultValues.animation}
+            name="animation"
+          >
+            <Radio value="wave">wave</Radio>
+            <Radio value="pulse">pulse</Radio>
+            <Radio value="unset">unset</Radio>
           </RadioGroup>
-        </FormControl>
-
-        <FormControl as="fieldset">
-          <FormLabel as="legend">Square as</FormLabel>
-          <RadioGroup name="squareAs" defaultValue={defaultValues.squareAs}>
-            <HStack spacing={4}>
-              <Radio value="text">square</Radio>
-              <Radio value="circle">circle</Radio>
-            </HStack>
+        </fieldset>
+        <fieldset>
+          <RadioGroup
+            name="squareAs"
+            label="Square as"
+            defaultValue={defaultValues.squareAs}
+          >
+            <Radio value="text">square</Radio>
+            <Radio value="circle">circle</Radio>
           </RadioGroup>
-        </FormControl>
-        <FormControl as="fieldset">
-          <FormLabel as="label">Skeleton Animation Color</FormLabel>
-          <SimpleGrid columns={2} spacing={4}>
-            <VStack spacing="4px" align="start">
-              <FormLabel>
-                <Text fontSize="sm" color="gray.600">
-                  StartColor
-                </Text>
-              </FormLabel>
-              <Input
-                name="startColor"
-                placeholder="startColor"
-                defaultValue={defaultValues.startColor}
-                type="color"
-              />
-            </VStack>
-            <VStack spacing="4px" align="start">
-              <FormLabel>
-                <Text fontSize="sm" color="gray.600">
-                  EndColor
-                </Text>
-              </FormLabel>
-              <Input
-                name="endColor"
-                placeholder="endColor"
-                defaultValue={defaultValues.endColor}
-                type="color"
-              />
-            </VStack>
+        </fieldset>
+        <fieldset>
+          <legend style={{ fontSize: '14px' }}>Skeleton Animation Color</legend>
+          <SimpleGrid cols={2} spacing={4}>
+            <ColorInput
+              label="StartColor"
+              name="startColor"
+              format="rgba"
+              placeholder="Pick base Skeleton Color"
+              defaultValue={defaultValues.startColor}
+            />
+            <ColorInput
+              label="EndColor"
+              name="endColor"
+              format="rgba"
+              placeholder="Pick highlight Skeleton Color"
+              defaultValue={defaultValues.endColor}
+            />
           </SimpleGrid>
-        </FormControl>
-        <HStack spacing={4}>
+        </fieldset>
+        <Group spacing={4}>
           <Button type="submit">Create</Button>
           <Button
             type="button"
             variant="outline"
-            as="a"
+            component="a"
             href="https://codesandbox.io/s/figleton-skeleton-playground-ugbht"
             target="_blank"
             leftIcon={<CodeSandboxLogoIcon />}
           >
             CodeSandbox
           </Button>
-        </HStack>
-      </VStack>
+        </Group>
+      </Group>
     </form>
   );
 }
