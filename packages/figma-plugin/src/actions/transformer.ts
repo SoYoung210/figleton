@@ -15,33 +15,30 @@ function toMetaTree(
     ({ type }) => !nodeConstants.unsupportedTypes.includes(type)
   );
 
-  const position = isRootNode ? 'relative' : 'absolute';
   const { x, y, width, height } = targetNode.renderBounds;
   const top = isRootNode ? 0 : y - rootNode.renderBounds.y;
   const left = isRootNode ? 0 : x - rootNode.renderBounds.x;
 
   return {
     name: targetNode.name,
-    position,
     top,
     left,
     width,
     height,
     children: nextValidChildren?.map(nextNode =>
-      toMetaTree(nextNode, targetNode)
+      toMetaTree(nextNode, rootNode)
     ),
   };
 }
 
 const DATA_ATTR_NAME = 'data-skeleton-name';
 const STYLED_SKELETON_COMP_NAME = 'StyledSkeleton';
-type ElementType = typeof STYLED_SKELETON_COMP_NAME | 'div';
+
 function skeletonJSXString(
   targetNode: NodeMetaData,
   options: SkeletonOption | undefined = {}
 ): string {
   const {
-    position,
     top,
     left,
     width: rawWidth,
@@ -50,6 +47,12 @@ function skeletonJSXString(
     name,
   } = targetNode;
   const shouldDrawSkeleton = children == null || children.length === 0;
+
+  if (!shouldDrawSkeleton) {
+    return (children ?? [])
+      ?.map(childNode => skeletonJSXString(childNode, options))
+      .join('');
+  }
 
   const isNumericWidth = typeof rawWidth === 'number';
   const isNumericHeight = typeof rawHeight === 'number';
@@ -66,22 +69,10 @@ function skeletonJSXString(
   const sizeStyleString = `width: ${
     isNumericWidth ? width : `'${width}'`
   }, height: ${isNumericHeight ? height : `'${height}'`}`;
+
   const variantPropsString = variant !== 'text' ? `variant="${variant}"` : '';
 
-  const elementType: ElementType = shouldDrawSkeleton
-    ? 'StyledSkeleton'
-    : 'div';
-
-  const elementProps =
-    elementType === 'StyledSkeleton'
-      ? `style={{ ${positionStyleString}, ${sizeStyleString} }}${variantPropsString}`
-      : `style={{ position: '${position}', ${positionStyleString} }} `;
-
-  return `<${elementType} ${DATA_ATTR_NAME}="${name}" ${elementProps}>${(
-    children ?? []
-  )
-    ?.map(childNode => skeletonJSXString(childNode, options))
-    .join('')}</${elementType}>`;
+  return `<StyledSkeleton ${DATA_ATTR_NAME}="${name}" style={{ ${positionStyleString}, ${sizeStyleString} }}${variantPropsString} />`;
 }
 
 function beautify(rawHtml: string): string {
@@ -134,9 +125,11 @@ function combineComponentString(options: SkeletonOption | undefined) {
     return `
       ${baseComponentString}
 
-      function MySkeleton() {
+      export function MySkeleton() {
         return (
-          ${parsedSkeletonComponentString}
+          <div style={{ position: 'relative' }}>
+            ${parsedSkeletonComponentString}
+          </div>
         )
       }
     `;
