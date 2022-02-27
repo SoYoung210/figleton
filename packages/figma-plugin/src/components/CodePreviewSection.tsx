@@ -5,6 +5,7 @@ import useEventListener from '../hooks/event';
 import { useClipboard } from '../hooks/clipboard';
 import ResultPreviewSection from './ResultPreviewSection';
 import { transformer } from '../actions/transformer';
+import { SkeletonOption } from '../model';
 
 interface CodePreviewData {
   uiCode: string;
@@ -15,6 +16,9 @@ type TabCategory = 'base' | 'ui';
 export default function CodePreviewSection() {
   const [activeTab, setActiveTab] = useState<TabCategory>('base');
   const [codeContent, setCodeContent] = useState<CodePreviewData>();
+  const [skeletonOptions, setSkeletonOptions] = useState<
+    SkeletonOption | undefined
+  >();
 
   const previewUiCodeContent = useMemo(() => {
     if (codeContent == null) {
@@ -32,9 +36,20 @@ export default function CodePreviewSection() {
     `);
   }, [codeContent]);
 
-  useEventListener<CodePreviewData>({ type: 'preview-code' }, e => {
-    setCodeContent(e.data.pluginMessage.payload);
-  });
+  useEventListener<{
+    result: CodePreviewData;
+    options: SkeletonOption | undefined;
+  }>(
+    { type: 'preview-code' },
+    ({
+      data: {
+        pluginMessage: { payload },
+      },
+    }) => {
+      setCodeContent(payload.result);
+      setSkeletonOptions(payload.options);
+    }
+  );
   const clipboard = useClipboard();
 
   const handleCopyClick = useCallback(() => {
@@ -57,20 +72,10 @@ export default function CodePreviewSection() {
                 setActiveTab(tabIndex === 0 ? 'base' : 'ui');
               }}
             >
-              <Prism.Tab
-                label="StyledSkeleton.tsx"
-                language="tsx"
-                noCopy
-                active={activeTab === 'base'}
-              >
+              <Prism.Tab label="StyledSkeleton.tsx" language="tsx" noCopy>
                 {codeContent.baseCode}
               </Prism.Tab>
-              <Prism.Tab
-                label="MySkeleton.tsx"
-                language="tsx"
-                noCopy
-                active={activeTab === 'ui'}
-              >
+              <Prism.Tab label="MySkeleton.tsx" language="tsx" noCopy>
                 {previewUiCodeContent}
               </Prism.Tab>
             </Prism.Tabs>
@@ -80,7 +85,10 @@ export default function CodePreviewSection() {
             />
           </Tabs.Tab>
           <Tabs.Tab label="preview">
-            <ResultPreviewSection uiCode={codeContent.uiCode} />
+            <ResultPreviewSection
+              uiCode={codeContent.uiCode}
+              options={skeletonOptions}
+            />
           </Tabs.Tab>
         </Tabs>
       ) : null}

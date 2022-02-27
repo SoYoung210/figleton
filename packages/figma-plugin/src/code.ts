@@ -21,7 +21,7 @@ figma.ui.onmessage = (msg: PluginMessage) => {
       figma.ui.postMessage(
         {
           type: 'preview-code',
-          payload: result,
+          payload: { result, options: msg.option },
         },
         { origin: '*' }
       );

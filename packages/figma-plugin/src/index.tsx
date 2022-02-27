@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-import { Group, Box } from '@mantine/core';
+import { Box } from '@mantine/core';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -10,10 +10,8 @@ import ConfigSection from './components/ConfigSection';
 function App() {
   return (
     <Box sx={{ padding: '16px' }}>
-      <Group spacing={24} align="start">
-        <ConfigSection />
-        <CodePreviewSection />
-      </Group>
+      <ConfigSection />
+      <CodePreviewSection />
     </Box>
   );
 }
