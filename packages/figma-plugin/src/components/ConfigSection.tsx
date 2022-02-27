@@ -98,7 +98,7 @@ export default function ConfigSection() {
           <Radio value="circle">circle</Radio>
         </RadioGroup>
 
-        <SimpleGrid cols={2} spacing={4}>
+        <SimpleGrid cols={2} spacing={4} sx={{ width: '100%' }}>
           <ColorInput
             label="StartColor"
             description="Skeleton Animation Start Color"
