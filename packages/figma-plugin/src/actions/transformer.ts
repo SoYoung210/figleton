@@ -67,7 +67,7 @@ function skeletonJSXString(
     isNumericWidth ? width : `'${width}'`
   }, height: ${isNumericHeight ? height : `'${height}'`}`;
 
-  const variantPropsString = variant !== 'text' ? `variant="${variant}"` : '';
+  const variantPropsString = variant !== 'text' ? ` variant="${variant}"` : '';
 
   return `<StyledSkeleton ${DATA_ATTR_NAME}="${name}" style={{ ${positionStyleString}, ${sizeStyleString} }}${variantPropsString} />`;
 }
