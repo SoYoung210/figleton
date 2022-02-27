@@ -10,8 +10,10 @@ interface CodePreviewData {
   uiCode: string;
   baseCode: string;
 }
+
+type TabCategory = 'base' | 'ui';
 export default function CodePreviewSection() {
-  const [activeTab, setActiveTab] = useState<'base' | 'ui'>('base');
+  const [activeTab, setActiveTab] = useState<TabCategory>('base');
   const [codeContent, setCodeContent] = useState<CodePreviewData>();
 
   const previewUiCodeContent = useMemo(() => {
@@ -50,13 +52,16 @@ export default function CodePreviewSection() {
       {codeContent != null ? (
         <Tabs>
           <Tabs.Tab label="code">
-            <Prism.Tabs>
+            <Prism.Tabs
+              onTabChange={tabIndex => {
+                setActiveTab(tabIndex === 0 ? 'base' : 'ui');
+              }}
+            >
               <Prism.Tab
                 label="StyledSkeleton.tsx"
                 language="tsx"
                 noCopy
                 active={activeTab === 'base'}
-                onClick={() => setActiveTab('base')}
               >
                 {codeContent.baseCode}
               </Prism.Tab>
@@ -65,7 +70,6 @@ export default function CodePreviewSection() {
                 language="tsx"
                 noCopy
                 active={activeTab === 'ui'}
-                onClick={() => setActiveTab('ui')}
               >
                 {previewUiCodeContent}
               </Prism.Tab>
