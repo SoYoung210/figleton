@@ -20,6 +20,7 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@figeleton/skeleton": "^0.1.2",
     "@fxts/core": "^0.4.2",
     "@mantine/core": "^3.6.11",
     "@mantine/hooks": "^3.6.11",
@@ -31,7 +32,8 @@
     "js-beautify": "^1.14.0",
     "path-browserify": "^1.0.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-jsx-parser": "^1.29.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.12",
