@@ -4,7 +4,7 @@ import { CodedError, PluginMessage } from './model';
 const STORAGE_KEY = '__FIGLETON_CONFIGURATION_KEY';
 
 figma.clientStorage.getAsync(STORAGE_KEY).then(existConfig => {
-  figma.showUI(__html__, { width: 450, height: 550 });
+  figma.showUI(__html__, { width: 600, height: 800 });
   figma.ui.postMessage({
     type: 'sync-storage-config-value',
     payload: existConfig != null ? JSON.parse(existConfig) : undefined,
