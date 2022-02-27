@@ -1,67 +1,115 @@
-import { Box, Button, useClipboard, Stack, Skeleton } from '@chakra-ui/react';
-import React, { useRef, useState } from 'react';
-import { getHighlighter, setCDN } from 'shiki';
-import styled from '@emotion/styled';
-import useAsyncHandler from '../hooks/async';
+import React, { useState, useCallback, useMemo } from 'react';
+import { Button, ButtonProps, Tabs } from '@mantine/core';
+import { Prism } from '@mantine/prism';
 import useEventListener from '../hooks/event';
+import { useClipboard } from '../hooks/clipboard';
+import ResultPreviewSection from './ResultPreviewSection';
+import { transformer } from '../actions/transformer';
+import { SkeletonOption } from '../model';
 
+interface CodePreviewData {
+  uiCode: string;
+  baseCode: string;
+}
+
+type TabCategory = 'base' | 'ui';
 export default function CodePreviewSection() {
-  setCDN('https://unpkg.com/shiki/');
+  const [activeTab, setActiveTab] = useState<TabCategory>('base');
+  const [codeContent, setCodeContent] = useState<CodePreviewData>();
+  const [skeletonOptions, setSkeletonOptions] = useState<
+    SkeletonOption | undefined
+  >();
 
-  const [highlightText, setHighlightText] = useState('');
-  const originDataRef = useRef<string>('');
-  const { onCopy, hasCopied } = useClipboard(originDataRef.current);
+  const previewUiCodeContent = useMemo(() => {
+    if (codeContent == null) {
+      return '';
+    }
 
-  const highlighter = getHighlighter({ theme: 'dark-plus' });
+    return transformer.beautify(`
+    export function MySkeleton() {
+      return (
+        <div style={{ position: 'relative' }}>
+          ${codeContent.uiCode}
+        </div>
+      )
+    }
+    `);
+  }, [codeContent]);
 
-  const [handleData, { isPending }] = useAsyncHandler(
-    async (payload: string) => {
-      setHighlightText(
-        (await highlighter).codeToHtml(payload, {
-          lang: 'jsx',
-        })
-      );
+  useEventListener<{
+    result: CodePreviewData;
+    options: SkeletonOption | undefined;
+  }>(
+    { type: 'preview-code' },
+    ({
+      data: {
+        pluginMessage: { payload },
+      },
+    }) => {
+      setCodeContent(payload.result);
+      setSkeletonOptions(payload.options);
     }
   );
+  const clipboard = useClipboard();
 
-  useEventListener<string>({ type: 'preview-code' }, e => {
-    originDataRef.current = e.data.pluginMessage.payload;
-    handleData(e.data.pluginMessage.payload);
-  });
+  const handleCopyClick = useCallback(() => {
+    if (codeContent == null) {
+      return;
+    }
+
+    clipboard.copyText(
+      activeTab === 'base' ? codeContent.baseCode : previewUiCodeContent
+    );
+  }, [activeTab, clipboard, codeContent, previewUiCodeContent]);
 
   return (
-    <Box position="relative" w="100%">
-      {highlightText !== '' ? (
-        <Button
-          size="xs"
-          onClick={onCopy}
-          position="absolute"
-          top="10px"
-          right="10px"
-        >
-          {hasCopied ? 'COPIED' : 'COPY'}
-        </Button>
+    <div style={{ width: '100%', position: 'relative' }}>
+      {codeContent != null ? (
+        <Tabs>
+          <Tabs.Tab label="code">
+            <Prism.Tabs
+              onTabChange={tabIndex => {
+                setActiveTab(tabIndex === 0 ? 'base' : 'ui');
+              }}
+            >
+              <Prism.Tab label="StyledSkeleton.tsx" language="tsx" noCopy>
+                {codeContent.baseCode}
+              </Prism.Tab>
+              <Prism.Tab label="MySkeleton.tsx" language="tsx" noCopy>
+                {previewUiCodeContent}
+              </Prism.Tab>
+            </Prism.Tabs>
+            <CopyButton
+              onClick={handleCopyClick}
+              hasCopied={clipboard.hasCopied}
+            />
+          </Tabs.Tab>
+          <Tabs.Tab label="preview">
+            <ResultPreviewSection
+              uiCode={codeContent.uiCode}
+              options={skeletonOptions}
+            />
+          </Tabs.Tab>
+        </Tabs>
       ) : null}
-      {isPending ? (
-        <Stack>
-          <Skeleton height="20px" />
-          <Skeleton height="20px" />
-          <Skeleton height="20px" />
-        </Stack>
-      ) : (
-        <Pre
-          dangerouslySetInnerHTML={{
-            __html: highlightText,
-          }}
-        />
-      )}
-    </Box>
+    </div>
   );
 }
 
-const Pre = styled.pre`
-  pre.shiki {
-    padding: 10px;
-    overflow: auto;
-  }
-`;
+function CopyButton({
+  hasCopied,
+  ...props
+}: ButtonProps<'button'> & { hasCopied: boolean }) {
+  return (
+    <Button
+      variant="light"
+      compact
+      size="xs"
+      sx={{ position: 'absolute', right: 10, top: 100 }}
+      color={hasCopied ? 'teal' : 'blue'}
+      {...props}
+    >
+      {hasCopied ? 'Copied' : 'Copy'}
+    </Button>
+  );
+}

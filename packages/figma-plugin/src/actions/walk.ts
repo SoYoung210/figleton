@@ -15,8 +15,6 @@ export default function walk(
     );
   }
 
-  const combine = transformer.combineComponentString(options);
-
   const rootNode = nodeParser.init(selectionNodes);
   const toMetaTree = transformer.toMetaTree(rootNode);
 
@@ -24,13 +22,11 @@ export default function walk(
     rootNode,
     toMetaTree,
     targetNode => transformer.skeletonJSXString(targetNode, options),
-    parsedSkeletonComponentString =>
-      combine(
-        html_beautify(parsedSkeletonComponentString, {
-          indent_size: 2,
-          indent_with_tabs: false,
-        })
-      ),
-    transformer.beautify
+    parsedSkeletonComponentString => ({
+      uiCode: html_beautify(parsedSkeletonComponentString, {
+        indent_size: 2,
+      }),
+      baseCode: transformer.beautify(transformer.baseComponentString(options)),
+    })
   );
 }

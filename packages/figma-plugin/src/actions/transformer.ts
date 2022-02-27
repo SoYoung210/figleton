@@ -67,7 +67,7 @@ function skeletonJSXString(
     isNumericWidth ? width : `'${width}'`
   }, height: ${isNumericHeight ? height : `'${height}'`}`;
 
-  const variantPropsString = variant !== 'text' ? `variant="${variant}"` : '';
+  const variantPropsString = variant !== 'text' ? ` variant="${variant}"` : '';
 
   return `<StyledSkeleton ${DATA_ATTR_NAME}="${name}" style={{ ${positionStyleString}, ${sizeStyleString} }}${variantPropsString} />`;
 }
@@ -114,28 +114,14 @@ function styledSkeletonComponentString(propsString: string) {
   `;
 }
 
-function combineComponentString(options: SkeletonOption | undefined) {
+function baseComponentString(options: SkeletonOption | undefined) {
   const propsString = defaultPropsString(options);
-  const baseComponentString = styledSkeletonComponentString(propsString);
-
-  return function (parsedSkeletonComponentString: string) {
-    return `
-      ${baseComponentString}
-
-      export function MySkeleton() {
-        return (
-          <div style={{ position: 'relative' }}>
-            ${parsedSkeletonComponentString}
-          </div>
-        )
-      }
-    `;
-  };
+  return styledSkeletonComponentString(propsString);
 }
 
 export const transformer = {
   toMetaTree,
   skeletonJSXString,
-  combineComponentString,
   beautify,
+  baseComponentString,
 };

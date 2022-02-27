@@ -18,19 +18,22 @@
   "author": "soso (SoYoung210)",
   "license": "MIT",
   "dependencies": {
-    "@chakra-ui/react": "^1.8.1",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@figeleton/skeleton": "^0.1.2",
     "@fxts/core": "^0.4.2",
+    "@mantine/core": "^3.6.11",
+    "@mantine/hooks": "^3.6.11",
+    "@mantine/prism": "^3.6.11",
     "@radix-ui/react-icons": "^1.0.3",
-    "add": "^2.0.6",
     "cheerio": "^1.0.0-rc.10",
+    "copy-to-clipboard": "^3.3.1",
     "framer-motion": "^5",
     "js-beautify": "^1.14.0",
     "path-browserify": "^1.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "shiki": "^0.10.0"
+    "react-jsx-parser": "^1.29.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.12",

@@ -1,3 +1,4 @@
 packages:
   - "apps/*"
   - "packages/*"
+link-workspace-packages: false
